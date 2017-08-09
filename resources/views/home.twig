@@ -1,0 +1,60 @@
+{%	extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="jumbotron" id="home">
+  <h1 class="display-3 bg-inverse text-white title mb-0">Familiaris</h1>
+  
+  <h3 class="display-7 text-center text-white">A family tree with a difference<br>"Wicker or wood?"</h3>
+  <p class="display-6 text-white float-right mt-4">Lanhydrock</p>
+</div>
+
+<div>
+<p class="display-6 text-center">Access our knowledge base to find out about our family members and the relationships between them.<br>
+    Expand our knowledge base by adding your knowledge about family members.<br>If you think you may be a member of our family and want to join us, click <span><a href="{{ path_for('membership') }}"}}> here</a></span>.</p>
+
+</div>
+
+
+<div>
+    <h4 class="display-5 text-center bg-success text-white" id="howItWorks">How Familiaris works</h4>
+</div>
+
+<div class="card-deck-wrapper" id="cdw">
+	<div class="card-deck">
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Members</h4>
+                <p class="card-text">Users of Familiaris are all members of our family; we are all related to each other in some way.<br>If you want to find out whether you are a member of our family and want to join click here.</p>
+                <p>
+                    <a class="btn btn-primary btn-sm" href="{{ path_for('membership') }}" role="button">Learn how to join</a>
+                </p>
+            </div>
+            <img class="card-img-bottom" src="{{ base_url() }}/images/waterfall.png" width="90%" height="200" alt="Card image cap">
+        </div>
+                    
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">Knowledge Base</h4>
+                <p class="card-text">Our knowledge base contains information about individuals (we call them 'People') both living and deceased who belong to our family.<br>In essence, it is a family tree with comprehensive information about individuals.<br>It has been built up by family members adding information about themselves and others they know about.<br>Family members can edit the knowledge base to ensure that its contents are as accurate as possible.</p>
+                <p>
+                	<a class="btn btn-primary btn-sm" href="{{ path_for('knowledgebase') }}" role="button">Learn more</a>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="card">
+        	<div class="card-block">
+                <h4 class="card-title">Searching</h4>
+                <p class="card-text">As a family member you can search the knowledge base for information about individuals (whether they are current members of Familiaris or people on the family tree).<br>You can also add to the knowledge base by adding new people to the family tree and by adding or amending information about individuals already in the knowledge base.<br>We take privacy very seriously: you can specify who has permission to view data about yourself or your children.</p>
+                <p>
+                    <a class="btn btn-primary btn-sm" href="{{ path_for('auth.signin') }}" role="button">Sign in</a>
+                </p>
+        	</div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

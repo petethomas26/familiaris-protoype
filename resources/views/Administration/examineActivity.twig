@@ -1,0 +1,54 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-3 pb-2 bg-primary">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                Activity Log (from a given date)
+                <a type="button" class="close" href="{{ path_for('administration') }}" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </a>
+                
+            </div>
+
+            <div class="card-block">
+				<table class="table">
+					<thead>
+						<th>Date</th>
+						<th>Type</th>
+						<th>Email</th>
+						<th>Member name</th>
+						<th>Member Id</th>
+						<th>Invite No</th>
+						<th>Result</th>
+					</thead>
+
+					<tbody>
+						{% for row in log %}
+						<tr>
+							<td>{{row.date}}</td>
+							<td>{{row.type}}</td>
+							<td>{{row.email}}</td>
+							<td>{{row.member_name}}</td>
+							<td>{{row.member_id}}</td>
+							<td>{{row.invite_no}}</td>
+							<td>{{row.result}}</td>
+						</tr>
+						{% endfor %}
+
+					</tbody>
+
+				</table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

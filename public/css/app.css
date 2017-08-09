@@ -1,0 +1,209 @@
+body {
+	padding-top: 50px;
+	padding-bottom: 40px;
+}
+
+hr {
+	height: 1px;
+	background-color: RoyalBlue;
+}
+
+meter {
+	/* Reset the default appearance */
+	-webkit-appearance:none;
+	-moz-appearance: none;
+	appearance: none;
+
+	margin: 0 auto 1em;
+	width: 100%;
+	height: 0.5em;
+
+	/*Applicable only to Firefox */
+	background: none;
+	background-color: rgba(0,0,0,0.1);
+}
+
+meter::-webkit-meter-bar {
+	background: none;
+	background-color: rgba(0,0,0,0.1);
+}
+
+/* Webkit based browsers */
+meter[value="1"]::-webkit-meter-optimum-value { background: red; }
+meter[value="2"]::-webkit-meter-optimum-value { background: yellow; }
+meter[value="3"]::-webkit-meter-optimum-value { background: orange; }
+meter[value="4"]::-webkit-meter-optimum-value { background: green; }
+
+/* Gecko based browsers */
+meter[value="1"]::-moz-meter-bar { background: red; }
+meter[value="2"]::-moz-meter-bar { background: yellow; }
+meter[value="3"]::-moz-meter-bar { background: orange; }
+meter[value="4"]::-moz-meter-bar { background: green; }
+
+
+
+#home {
+	background: url(homeBackground.jpg) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#knowledgebase {
+	background: url(knowledgebaseBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#membership {
+	background: url(membershipBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#familyTree {
+	background: url(treeBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#tools {
+	background: url(toolsBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#userGuide {
+	background: url(userGuideBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#about {
+	background: url(aboutBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#contact {
+	background: url(contactBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#overview {
+	background: url(overviewBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#myMembership {
+	background: url(myMembershipBackground.png) no-repeat center;
+	background-size: cover;
+	margin-bottom: 10px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+
+.title {
+	max-width: 275px;
+    color:white;
+    background-color: black;
+}
+
+.lower {
+	padding-top:50px;
+}
+
+
+/*
+.main {
+	position: absolute;
+	top: 10px;
+	left: 20%;
+	width: 250px;
+	height:330px;
+	border: 2px solid gray;
+	border-radius: 10px;
+}
+*/
+/*
+#image_preview{
+	position: absolute;
+	font-size: 30px;
+	top: 10px;
+	left: 10px;
+	width: 200px;
+	height: 190px;
+	text-align: center;
+	line-height: 90px;
+	font-weight: bold;
+	color: #C0C0C0;
+	background-color: #FFFFFF;
+	overflow: auto;
+}
+*/
+/*
+#selectImage{
+	padding: 19px 21px 14px 15px;
+	position: absolute;
+	bottom: 0px;
+	width: 214px;
+	background-color: #FEFFED;
+	border-radius: 10px;
+}
+*/
+/*
+.submit{
+	font-size: 16px;
+	background: linear-gradient(#ffbc00 5%, #ffdd7f 100%);
+	border: 1px solid #e5a900;
+	color: #4E4D4B;
+	font-weight: bold;
+	cursor: pointer;
+	width: 300px;
+	border-radius: 5px;
+	padding: 10px 0;
+	outline: none;
+	margin-top: 20px;
+	margin-left: 15%;
+}
+*/
+/*
+.submit:hover{
+	background: -webkit-linear-gradient(#ffdd7f 5%, #ffbc00 100%);
+	background: -o-linear-gradient(#ffdd7f 5%, #ffbc00 100%);
+	background: linear-gradient(#ffdd7f 5%, #ffbc00 100%);
+}
+*/
+/*
+#file {
+	color: red;
+	padding: 5px;
+	border: 5px solid #8BF1B0;
+	background-color: #8BF1B0;
+	margin-top: 10px;
+	border-radius: 5px;
+	box-shadow: 0 0 15px #626F7E;
+	margin-left: 15%;
+	width: 72%;
+}
+*/

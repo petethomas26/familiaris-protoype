@@ -1,0 +1,64 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower">
+
+    </div>
+    <div class="col-sm-8 text-left"> 
+		<h2 class="bg-success text-center display-7 pt-1 pb-2 pl-2 text-white">Opinionaire</h2>
+		<hr>
+		
+		{% if opinions is not empty %}
+		<p>Please give your opinion on the following statements.</p>
+
+		<form action="{{ path_for('postOpinion') }}" method="post" autocomplete="off">
+			<table class="table table-striped table-md .table-responsive">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Statement</th>
+						<th>Closing Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for opinion in opinions %}
+						<tr>
+							<td>{{opinion.id}}</td>
+							<td>{{opinion.statement}}</td>
+							<td>{{opinion.end_date}}</td>
+							
+							<td>
+								<label class="custom-control custom-radio">Agree
+									<input name="{{opinion.id}}" type="radio" class="custom-control-input" value="{{[opinion.id, 'agree'] | join(':') }}" id="agree" >
+									<span class="custom-control-indicator"></span>
+								</label>
+							</td>
+							<td>
+								<label class="custom-control custom-radio">Disagree
+									<input name="{{opinion.id}}" type="radio" class="custom-control-input" value="{{[opinion.id, 'disagree'] | join(':') }}" id="disagree" >
+									<span class="custom-control-indicator"></span>
+								</label>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<button class="btn btn-primary btn-md" type="submit" id="submit" >
+        		Submit
+        	</button>
+        	{{ csrf.field | raw }}
+		</form>
+		{% else %}
+			<p>No statements currently require your attention.</p>
+		{% endif %}
+
+	</div>
+
+  </div>
+
+</div>
+
+{% endblock %}

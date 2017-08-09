@@ -1,0 +1,267 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="jumbotron" id="tools">
+  <h1 class="display-3 text-white mb-0">Administration Tools</h1>
+  <p class="display-6 text-white float-right mt-4">Alhambra</p>
+</div>
+
+
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower text-sm-left">
+    
+    </div>
+
+
+	<div class="col-sm-8 text-left"> 
+        
+        <p>This page gives access to tools for administrators. Only administrators will have access to these tools. In normal use, members will not know that such tools exist. 
+        </p>
+
+        <p>The following are indicative of the tools to be made available:</p>
+
+        <table class="table table-hover table-striped table-responsive">
+              <thead>
+                <tr>
+                  <th>Tool</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <a class="nav-link" href="{{ path_for('monitorQueries', {'view' : 'picked up'})}}">Query Monitor</a>
+                  </td>
+                  <td>
+                      Monitor and respond to outstanding queries raised by members. Members can send emails to administrators;  this tool allows administrators to manage query emails.
+                  </td>
+                </tr>
+                
+                <tr>
+                  <td>
+                    <a class="nav-link" href="{{ path_for('getVotings')}}">Get votes cast</a>
+                  </td>
+                  <td>
+                      Members can be asked to vote on a suggestion (give their opinion). This tool obtains the votes cast for each suggestion (known as an opinion statement).
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a class="nav-link" href="" data-toggle="modal" data-target="#statementModal" data-whatever="statement">Create opinion statement</a>
+                  </td>
+                  <td>
+                      Create an opinion statement (suggestion). Once created, members will automatically be asked to give their opinion (vote on the suggestion).
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <a class="nav-link" href="{{ path_for('setAdministrator', {'ok': '0'}) }}" >Create administrator</a>
+                  </td>
+                  <td>
+                      Give administration privilages to a member. The member becomes an administrator of the website.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <a class="nav-link" href="" data-toggle="modal" data-target="#suspendModal" data-whatever="suspend">Suspend member</a>
+                  </td>
+                  <td>
+                      Withdraw sign in facility for a member (suspend membership). Used when a member has misused the website.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <a class="nav-link" href="" data-toggle="modal" data-target="#reinstateModal" data-whatever="reinstate">Reinstate member</a>
+                  </td>
+                  <td>
+                      Reinstate member from suspension.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <a class="nav-link" href="" data-toggle="modal" data-target="#backupModal" data-whatever="backup">Backup Database</a>
+                  </td>
+                  <td>
+                      Create backup of database tables. The intention is that backups should be taken automatically on a regular basis. Until that feature is available, manual backups using this tool must be made.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <a class="nav-link" href="" data-toggle="modal" data-target="#rollbackModal" data-whatever="rollback">Roll back Database</a>
+                  </td>
+                  <td>
+                      Roll back database to an earlier state. This will most likely result in a loss of data (any that was entered since the previous backup). <strong>Should only be used if the database has become corrupted and cannot be salvaged manually.</strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <a class="nav-link" href="{{ path_for('findOrphans') }}">Find unreferenced items in Database</a>
+                  </td>
+                  <td>
+                      It is possible, but unlikely, that a table can contain data that is inaccessible to users of the website. It is almost impossible to reinstate such data so it simply uses up valuable space. This tool finds all such data and provides a facility for removing it (for ever). 
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <p><a class="nav-link" href="{{ path_for('compareNames')}}">Compare two names</a></p>
+                  </td>
+                  <td>
+                      This is really a tool for developers of the website. It enables you to input two names (first names, last names, street names etc.) to see how similar the system thinks they are. The tool makes use of the system's mechanism for comparing names when searching for people in the knowledgebase. The system appreciates that there can be spelling errors in names so looks for names that are similar to those requested. This tool is used to test that mechanism and provides information that might be useful in suggesting modifications to the underlying algorithm.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                   <p><a class="nav-link" href="{{ path_for('examineActivity')}}">Examine activity</a></p>
+                  </td>
+                  <td>
+                      The system logs usage of the website. This can help identify problems or misuse of the site. There may well be several tools that should be made available. The aim is to automate as many of these tools but initially they will be actioned manually. 
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="statementModal" tabindex="-1" role="dialog" aria-labelledby="statementModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statementModalLabel">Create Opinion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<form method="post" action="{{ path_for('createStatement')}}" >
+			<div class="form-group">
+				<label for="statement" class="form-control-label">Statement (phrased so that the user can respond either 'agree' or 'disagree'):</label>
+	    		<input type="text" class="form-control" id="statement" name="statement" >
+	        </div>
+	        <div class="form-group">
+	            <label for="endDate" class="form-control-label">End Date (when voting closes):</label>
+	            <input type="date" class="form-control" id="endDate" name="endDate">
+            </div>
+            <div class="form-group">
+	            <label for="votesThreshold" class="form-control-label">Votes Threshold (votes required for opinion to be carried):</label>
+	            <input type="number" min="1" class="form-control" id="votesThreshold" name="votesThreshold">
+            </div>
+		    <button  type="submit" class="btn btn-primary" id="opinionSubmit">Submit</button>
+		    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {{ csrf.field | raw }}
+
+      	</form>
+   	  </div>
+   </div>
+ </div>
+</div>
+
+<!-- Suspend a member's membership -->
+<div class="modal fade" id="suspendModal" tabindex="-1" role="dialog" aria-labelledby="suspendModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="suspendModalLabel">Suspend a Member's Membership</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ path_for('postSuspendMember')}}" >
+          <div class="form-group">
+            <label for="memberId" class="form-control-label">Member number</label>
+              <input type="text" class="form-control" id="memberId" name="memberId" >
+          </div>
+          <button  type="submit" class="btn btn-primary" id="suspendSubmit">Suspend</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {{ csrf.field | raw }}
+        </form>
+      </div>
+   </div>
+ </div>
+</div>
+
+<!-- Suspend a member's membership -->
+<div class="modal fade" id="reinstateModal" tabindex="-1" role="dialog" aria-labelledby="reinstateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reinstateModalLabel">Reinstate a Member's Membership</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ path_for('postReinstateMember')}}" >
+          <div class="form-group">
+            <label for="memberId" class="form-control-label">Member number</label>
+              <input type="text" class="form-control" id="memberId" name="memberId" >
+          </div>
+          <button  type="submit" class="btn btn-primary" id="reinstateSubmit">Reinstate</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {{ csrf.field | raw }}
+        </form>
+      </div>
+   </div>
+ </div>
+</div>
+
+<!-- Backup database -->
+<div class="modal fade" id="backupModal" tabindex="-1" role="dialog" aria-labelledby="backupModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="backupModalLabel">Backup Database</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ path_for('postBackupDatabase')}}" >
+          <div class="form-group">
+            The aim here is to backup all tables in the database into a copy of the database.
+            Currently, only one copy is kept. Eventually, grandfather and father copies will be kept.<br>
+            Not yet implemented.
+          </div>
+          <button  type="submit" class="btn btn-primary" id="backup">Backup</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {{ csrf.field | raw }}
+        </form>
+      </div>
+   </div>
+ </div>
+</div>
+
+<!-- Rollback database  -->
+<div class="modal fade" id="rollbackModal" tabindex="-1" role="dialog" aria-labelledby="rollbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rollbackModalLabel">Rollback Database</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{{ path_for('postRollbackDatabase')}}" >
+          <div class="form-group">
+            The aim here is to rollback all tables in the backup copy of the database into the active database.
+            Currently, only one copy is kept. Eventually, grandfather and father copies will be kept.<br>
+            Not yet implemented
+          </div>
+          <button  type="submit" class="btn btn-primary" id="rollback">Rollback</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            {{ csrf.field | raw }}
+        </form>
+      </div>
+   </div>
+ </div>
+</div>
+
+{% endblock %}

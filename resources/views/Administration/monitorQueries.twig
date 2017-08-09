@@ -1,0 +1,75 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-10 col-md-offset-3 pb-2 bg-primary">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+            	<p>
+            	Query Monitor :
+            	{% if view == "waiting" %}
+					queries waiting to be actioned
+				{% endif %}
+				{% if view == "all" %}
+					all queries
+				{% endif %}
+				{% if view == "picked up" %}
+					queries being actioned 
+				{% endif %}
+               <br>[click on a query to respond]
+
+                <a type="button" class="close" href="{{ path_for('administration') }}" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </a>
+                
+            </div>
+
+            <div class="card-block" id="displayQueries">
+            	{% if queries is not empty %}
+					<table class="table table-hover table-striped table-responsive">
+						<thead>
+							<tr>
+								<th>id</th>
+								<th>From</th>
+								<th>Subject</th>
+								<th>Query</th>
+								<th>Received</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for query in queries %}
+							<tr onclick="window.location = '{{ path_for("respondToQuery",  {"queryId": query.id}) }}'">
+								<td>{{query.id}}</td>
+								<td>{{query.from_member_id}}</td>
+								<td>{{query.subject}}</td>
+								<td>{{query.query}}</td>
+								<td>{{query.created_at|date("d/m/Y")}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					No outstanding queries.
+				{% endif %}
+				
+				{% if view == "waiting" %}
+					<a type="button" class="btn btn-primary" href="{{path_for('monitorQueries', {'view' : 'all'}) }}">All queries</a>
+					<a type="button" class="btn btn-primary" href="{{path_for('monitorQueries', {'view' : 'picked up'}) }}">Picked up queries</a>
+				{% endif %}
+				{% if view == "all" %}
+					<a type="button" class="btn btn-primary" href="{{path_for('monitorQueries', {'view' : 'picked up'}) }}">Picked up queries</a>
+					<a type="button" class="btn btn-primary" href="{{path_for('monitorQueries', {'view' : 'waiting'}) }}">Waiting queries</a>
+				{% endif %}
+				{% if view == "picked up" %}
+					<a type="button" class="btn btn-primary" href="{{path_for('monitorQueries', {'view' : 'all'}) }}">All queries</a>
+					<a type="button" class="btn btn-primary" href="{{path_for('monitorQueries', {'view' : 'waiting'}) }}">Waiting queries</a>
+				{% endif %}
+				
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

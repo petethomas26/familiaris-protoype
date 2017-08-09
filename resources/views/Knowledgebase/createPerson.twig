@@ -1,0 +1,252 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+
+	<div class="row">
+		<div class="col-md-7 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white text-center">
+	   				Add a new Person to the knowledgebase
+	   				{% if personId >= 0 %}
+		   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </a>
+			        {% else %}
+					    <a type="button" class="close" href="{{ path_for('knowledgebase') }}" aria-label="Close">
+			          		<span aria-hidden="true">&times;</span>
+			        	</a>
+			        {% endif %}
+			        
+	  			</div>
+
+  				<div class="card-block">
+					<p><em>Please fill in the following form with as many details as you have.<br>Only the essential details are required here; further details can be added later.<br>Fields marked with an asterisk (<span style="color:red">*</span>) are required. </em></p>
+					
+				    <form action="{{ path_for('postCreatePerson', {'personId': personId}) }}" method="post" autocomplete="off">
+							
+						<div class="form-group row {{ blah.firstName ? ' has-warning' : '' }}">
+							<label class="col-sm-3 col-form-label" for="firstName">First Name <span style="color:red">*</span></label>
+							<input type="text" class="form-control {{ blah.firstName ? ' form-control-warning' : ''}} mb-2 mr-sm-2 mb-sm-0 col-sm-8" id="firstName" name="firstName" value="{{ old.firstName }}" 
+							placeholder="(In full e.g. William, not Bill or Will)" required>
+							<div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}</div>
+						</div>
+
+						<div class="form-group row {{ blah.nickname ? ' has-warning' : '' }}">
+							<label class="col-sm-3 col-form-label" for="nickName">Nickname</label>
+							<input type="text" class="form-control {{ blah.nickname ? ' form-control-warning' : ''}} mb-2 mr-sm-2 mb-sm-0 col-sm-8" id="nickname" name="nickname" value="{{ old.nickname }}" placeholder="(e.g. Bill)">
+							<div class="form-control-feedback">{{ blah.nickname ? blah.nickname | first : ''}}</div>
+						</div>		
+					
+						<div class="form-group row {{ blah.middleName ? ' has-warning' : '' }}">
+							<label class="col-sm-3 col-form-label" for="middleName">Middle Name(s)</label>
+							<input type="text" class="form-control {{ blah.middleName ? ' form-control-warning' : ''}} mb-2 mr-sm-2 mb-sm-0 col-sm-8" id="middleName" name="middleName" value="{{ old.middleName }}" placeholder="Middle name(s) and/or initial(s)">
+							<div class="form-control-feedback">{{ blah.middleName ? blah.middleName | first : ''}}</div>
+						</div>
+
+						<div class="form-group row {{ blah.lastName ? ' has-warning' : '' }}">
+							<label class="col-sm-3 col-form-label" for="lastName">Last Name <span style="color:red">*</span></label>
+							<input type="text" class="form-control {{ blah.lastName ? ' form-control-warning' : ''}} mb-2 mr-sm-2 mb-sm-0 col-sm-8" id="lastName" name="lastName"  value="{{ old.lastName }}" placeholder="" required>
+							<div class="form-control-feedback">{{ blah.lastName ? blah.lastName | first : ''}}</div>
+						</div>
+
+						<div class="form-group row {{ blah.dateOfBirth ? ' has-warning' : '' }}"> <!-- Date input -->
+					        <label class="col-sm-3 col-form-label" for="dateOfBirth">Date of birth<span style="color:red">*</span></label>
+					        
+					        <input type="text" class="form-control {{ blah.dateOfBirth ? ' form-control-warning' : ''}} mb-2 col-sm-7" id="dateOfBirth" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="dateOfBirth"  value="{{ old.dateOfBirth }}" placeholder="dd/mm/yyyy *" required>
+					        <div class="form-control-feedback">{{ blah.dateOfBirth ? blah.dateOfBirth | first : ''}}</div>
+
+					       
+							<span>
+								<button type="button" class="btn btn-primary btn-sm  ml-2 text-white  {{ blah.unsureDateOfBirth ? ' form-control-warning' : ''}}" id="unsureDateOfBirthFlag"  name="unsureDateOfBirthFlag" value = "{{old.unsureDateOfBirth}}">
+								<i class="fa {{ person.unsure_date_of_birth == 0 ? 'fa-check' : 'fa-question'}}" id="unsureDateOfBirthImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the date is correct; '?' means that the date may not be accurate; click to change."></i></button>
+								<input type="hidden" id="unsureDOBFlag" name="unsureDateOfBirthFlag">
+								<div class="form-control-feedback">{{ blah.unsureDateOfBirth ? blah.unsureDateOfBirth | first : ''}}
+								</div>
+							</span>
+
+							
+				      	</div>
+
+				      	<p></p>
+						
+				      	<div class="form-group row {{ blah.placeOfBirth ? ' has-warning' : '' }}">
+							<label class="col-sm-3 col-form-label" for="placeOfBirth">Place of birth</label>
+							<input type="text" class="form-control {{ blah.placeOfBirth ? ' form-control-warning' : ''}} mb-2  mb-sm-0 col-sm-7" id="placeOfBirth" name="placeOfBirth" value="{{ old.placeOfBirth }}" required>
+							<div class="form-control-feedback">{{ blah.placeOfBirth ? blah.placeOfBirth | first : ''}}</div>
+
+
+							<span>
+								<button type="button" class="btn btn-primary btn-sm  ml-2 text-white  {{ blah.unsurePlaceOfBirth ? ' form-control-warning' : ''}}" id="unsurePlaceOfBirthFlag"  name="unsurePlaceOfBirthFlag" value = "{{old.unsurePlaceOfBirth}}">
+								<i class="fa {{ person.unsure_place_of_birth == 0 ? 'fa-check' : 'fa-question'}}" id="unsurePlaceOfBirthImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the place is correct; '?' means that the place may not be accurate; click to change."></i></button>
+								<input type="hidden" id="unsurePOBFlag" name="unsurePlaceOfBirthFlag">
+								<div class="form-control-feedback">{{ blah.unsurePlaceOfBirth ? blah.unsurePlaceOfBirth | first : ''}}
+								</div>
+							</span>
+
+				      	</div>
+
+						<p></p>
+
+						{% if not(status == 'live') %}
+						<div class="form-group row">
+				            <label for="alive" class="col-sm-6 col-form-label ">Is this person currently alive?</label>
+				            <div id="alive">
+						        <div class="form-check form-check-inline">
+									<label class="form-check-label">
+									   <input class="form-check-input mt-2" type="radio" name="inlineRadioOptions" id="deathRadioYes" value="optionYes" checked> Yes
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label" active>
+								    	<input class="form-check-input mt-2" type="radio" name="inlineRadioOptions" id="deathRadioNo" value="optionNo"> No
+									</label>
+								</div>
+							</div>
+						</div>
+
+						<div id="deathData" hidden>
+							
+							<div class="form-group row {{ blah.dateOfDeath ? ' has-warning' : '' }}"> <!-- Date input -->
+						        <label class="col-sm-3 col-form-label" for="dateOfDeath">Date of death</label>
+
+						        <input type="text" class="form-control {{ blah.dateOfDeath ? ' form-control-warning' : ''}} mb-2 col-sm-7" id="dateOfDeath" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="dateOfDeath"  value="{{ old.dateOfDeath }}" placeholder="dd/mm/yyyy *">
+						        <div class="form-control-feedback">{{ blah.dateOfDeath ? blah.dateOfDeath | first : ''}}</div>
+						    
+
+								<span>
+									<button type="button" class="btn btn-primary btn-sm  ml-2 text-white  {{ blah.unsureDateOfDeath ? ' form-control-warning' : ''}}" id="unsureDateOfDeathFlag"  name="unsureDateOfDeathFlag" value = "{{old.unsureDateOfDeath}}">
+									<i class="fa {{ person.unsure_date_of_death == 0 ? 'fa-check' : 'fa-question'}}" id="unsureDateOfDeathImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the date is correct; '?' means that the date may not be accurate; click to change."></i></button>
+									<input type="hidden" id="unsureDODFlag" name="unsureDateOfDeathFlag">
+									<div class="form-control-feedback">{{ blah.unsureDateOfDeath ? blah.unsureDateOfDeath | first : ''}}
+									</div>
+								</span>
+
+
+							</div>
+						
+				      		<div class="form-group row{{ blah.placeOfDeath ? ' has-warning' : '' }}">
+								<label class="col-sm-3 pr-0 col-form-label" for="placeOfDeath">Place of death</label>
+								<input type="text" class="form-control {{ blah.placeOfDeath ? ' form-control-warning' : ''}} mb-2 mb-sm-0 col-sm-7" id="placeOfDeath" name="placeOfDeath" value="{{ old.placeOfDeath }}">
+								<div class="form-control-feedback">{{ blah.placeOfDeath ? blah.placeOfDeath | first : ''}}</div>
+
+								<span>
+									<button type="button" class="btn btn-primary btn-sm  ml-2 text-white  {{ blah.unsurePlaceOfDeath ? ' form-control-warning' : ''}}" id="unsurePlaceOfDeathFlag"  name="unsurePlaceOfDeathFlag" value = "{{old.unsurePlaceOfDeath}}">
+									<i class="fa {{ person.unsure_place_of_death == 0 ? 'fa-check' : 'fa-question'}}" id="unsurePlaceOfDeathImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the place is correct; '?' means that the place may not be accurate; click to change."></i></button>
+									<input type="hidden" id="unsurePODFlag" name="unsurePlaceOfDeathFlag">
+									<div class="form-control-feedback">{{ blah.unsurePlaceOfDeath ? blah.unsurePlaceOfDeath | first : ''}}
+									</div>
+								</span>
+
+							</div>
+
+				        </div>
+						{% endif %}
+
+						<p><em>Adding the person's parents will locate the person within the family tree. There is no requirement to do this now, it can be left until later.</em></p>
+
+				        <div class="form-group row">
+				            <label for="parents" class="col-sm-6 col-form-label">Add this person's parents?</label>
+				            <div id="parents">
+						        <div class="form-check form-check-inline">
+									<label class="form-check-label" active>
+									   <input class="form-check-input mt-2" type="radio" name="parentRadioOptions" id="parentRadioYes" value="optionYes" checked> Yes
+									</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<label class="form-check-label" >
+								    	<input class="form-check-input mt-2" type="radio" name="parentRadioOptions" id="parentRadioNo" value="optionNo" checked> No
+									</label>
+								</div>
+							</div>
+						</div>
+
+						
+						<div id="parentData" hidden>
+							<p>Sometimes relating people can be problematic. Therefore, to ensure that we record a person's natural parents correctly we ask you to enter parents by their reference number (rather than by name). This means that you need to access the parents' records first to verify that you have the reference numbers for the correct people.</p>
+							<p>This implies that the knowledgebase must already have records for both parents. If not, you will have to create records for one or both of the parents.</p>
+							<p>A particular difficulty comes when an individual has been adopted or who has had legal guardians appointed. In this case a person will have both natural and adoptive parents (although the natural parents may not be known). Therefore, if you are unsure whether you are working with natural or adoptive parents assume that they are natural parents: this can be changed at a later date if necessary.</p>
+
+
+						    <div class="form-inline" id="fatherDetails">
+
+								<label for="fatherReference" class="col-sm-2 col-form-label col-form-label-sm">Father's reference number</label>
+								<input type="text" class="form-control form-control-sm" id="fatherReference" name="fatherReference">
+								
+							</div>
+
+						    <div class="form-inline" id="motherDetails">
+
+								<label for="motherReference" class="col-sm-2 col-form-label col-form-label-sm">Mother's reference number</label>
+								<input type="text" class="form-control form-control-sm" id="motherReference" name="motherReference">
+								
+							</div>
+
+							<p></p>
+
+							<div class="form-group row">
+					            <label for="adoptives" class="col-sm-3 col-form-label">Add adoptive parents or guardians?</label>
+					            <div id="adoptives">
+							        <div class="form-check form-check-inline">
+										<label class="form-check-label" active>
+										   <input class="form-check-input" type="radio" name="adoptiveRadioOptions" id="adoptiveYes" value="adoptiveYes" > Yes
+										</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<label class="form-check-label" >
+									    	<input class="form-check-input" type="radio" name="adoptiveRadioOptions" id="adoptiveNo" value="adoptiveNo" checked> No
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<div id="adoptiveData" hidden>
+								<div class="form-inline" id="firstParent">
+
+									<label for="firstParentReference" class="col-sm-2 col-form-label col-form-label-sm">First parent or guardian's reference number</label>
+									<input type="text" class="form-control form-control-sm" id="firstParentReference" name="firstParentReference">
+								
+								</div>
+
+						    	<div class="form-inline" id="secondParent">
+
+									<label for="secondParentReference" class="col-sm-2 col-form-label col-form-label-sm">Second parent or guardian's reference number</label>
+									<input type="text" class="form-control form-control-sm" id="secondParentReference" name="secondParentReference">
+								
+								</div>
+							</div>
+
+						</div>
+
+						<br>
+
+						<input type="hidden"  id="who" name="who" value="{{ who }}">
+
+						<div class="float-sm-right">
+
+					        <button class="btn btn-primary btn-md" type="submit" id="submit" >
+					        		Add
+					        </button>
+
+					        {% if personId >= 0 %}
+				   				<a type="button" class="btn btn-primary btn-md" href="{{ path_for('person', {'personId': personId})  }}">
+					        		Cancel
+					        	</a>
+					        {% else %}
+							    <a type="button" class="btn btn-primary btn-md" href="{{ path_for('knowledgebase') }}">
+					          		Cancel
+					        	</a>
+					        {% endif %}
+
+				        </div>
+
+				        {{ csrf.field | raw }}
+					 
+					 </form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

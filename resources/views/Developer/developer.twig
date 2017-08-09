@@ -1,0 +1,141 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+  
+<div class="row">
+  <div class="col-md-7 col-md-offset-3 pb-2 bg-primary">
+    <div class="card">
+      <div class="card-header bg-primary text-white text-center">
+          Compare Names
+          <a type="button" class="close" href="{{ path_for('knowledgebase') }}" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </a>
+      </div>
+
+
+      <div class="card-block">
+        <div>
+          Enter two names and click on Compare
+          <form method="post" action="{{ path_for('postCompareNames') }}" autocomplete="off">
+            <table class="table table-hover table-sm">
+              <tbody>
+                <tr>
+                  <td>
+                    Name 1
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="name1" name="name1" value="{{name1}}" >
+        
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    Name 2
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="name2" name="name2" value="{{name2}}">
+                      
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    
+                  </td>
+                  <td>
+                    <div>
+                       <button type="submit" class="btn btn-primary btn-md float-sm-right">Compare</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+             
+            {{ csrf.field | raw }}
+
+          </form>
+        </div>
+        <hr>
+        <div>
+          <p></p>
+          
+          <p><em>Results</em></p>
+
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    Simple
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="sim" name="sim" value="{{similarity}}" readonly>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    Lev Sim
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="levSim" name="levSim" value="{{levSim}}" readonly>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    Text Sim
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="simText" name="simText" value="{{simText}}" readonly>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    Metaphone
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="metaphone" name="metaphone" value="{{metaphone}}" readonly>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>
+                    Similar?
+                  </td>
+                  <td>
+                    <div>
+                      <input type="text" class="form-control form-control-sm" id="similar" name="similar" value="{{sim}}" readonly>
+                  
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+
+          </div>
+            
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower">
+
+    </div>
+    <div class="col-sm-8 text-left"> 
+		<h2 class="bg-success display-7 pt-2 pb-2 pl-2 text-white">Allow child to join up.</h2>
+		<p>Normally, children under the age of 16 cannot join Familiaris.</p>
+		<p>This will allow your child to sign up to Familiaris and take over responsibility for their own data.</p>
+		<p>Your child must have their own email address.</p>
+		<p>We will send them an email containing an invitation code that will enable them to sign up to Familiaris.</p>
+		<hr>
+		<form action="{{ path_for('postInviteChild') }}" method="post" autocomplete="off">
+
+			<div class="form-group {{ blah.firstName ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="firstName">Child's first name</label>
+	            <div class="col-6">
+		            <input type="text" class="form-control{{ blah.firstName ? ' form-control-warning' : ''}}" name="firstName" id="firstName" placeholder="Your child's first name or nickname" value="{{ old.firstName }}">
+		            <div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}</div>
+	            </div>
+	        </div>
+
+	        <div class="form-group {{ blah.lastName ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="surname">Child's last Name</label>
+	            <div class="col-6">
+		            <input type="text" class="form-control{{ blah.lastName ? ' form-control-warning' : ''}}" name="lastName" id="lastName" placeholder="Your child's last name" value="{{ old.lastName }}">
+		            <div class="form-control-feedback">{{ blah.lastName ? blah.lastName | first : ''}}
+					</div>
+				</div>
+	        </div>
+
+	         <div class="form-group {{ blah.yearOfBirth ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="yearOfBirth">Child's year of birth</label>
+	            <div class="col-6">
+		            <input type="text" class="form-control{{ blah.yearOfBirth ? ' form-control-warning' : ''}}" name="yearOfBirth" id="yearOfBirth" placeholder="Your child's year of birth" value="{{ old.yearOfBirth }}">
+		            <div class="form-control-feedback">{{ blah.yearOfBirth ? blah.yearOfBirth | first : ''}}
+					</div>
+				</div>
+	        </div>
+
+	        <div class="form-group {{ blah.email ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="email">Child's email address</label>
+	            <div class="col-6">
+		            <input type="email" class="form-control{{ blah.email ? ' form-control-warning' : ''}} f" name="email" id="email" placeholder="name@domain.com" value="{{ old.email }}">
+		            <div class="form-control-feedback">{{ blah.email ? blah.email | first : ''}}
+					</div>
+				</div>
+	        </div>
+
+			<button type="submit" class="btn btn-primary">Invite Child</button>
+
+			{{ csrf.field | raw }}
+		</form>
+	</div>
+
+  </div>
+</div>
+
+{% endblock %}

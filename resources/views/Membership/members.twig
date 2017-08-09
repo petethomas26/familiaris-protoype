@@ -1,0 +1,34 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<!--List of all Members; to select one from-->
+	<h3>Members</h3>
+	<hr>
+	{% if members is not empty %}
+		<table class="table table-hover">
+		  	<thead>
+			    <tr>
+			      <th>#</th>
+			      <th>Member Name</th>
+			      <th>Email</th>
+			    </tr>
+		  	</thead>
+		  	<tbody>
+	  			{% set n = 0 %}
+				{% for member in members %}
+					{% set n = n+1 %}
+				    <tr>
+				      <th scope="row">{{ n }}</th>
+				      <td>{{ member.member_name }}</td>
+				      <td>{{ member.email}}</td>
+				    </tr>
+	  			{% endfor %}
+		   	</tbody>
+		</table>
+	{% else %}
+		<p>No members</p>
+	{% endif %}
+
+
+{% endblock %}

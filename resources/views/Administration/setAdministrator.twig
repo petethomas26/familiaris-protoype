@@ -1,0 +1,62 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 pb-2 bg-danger">
+        <div class="card">
+            <div class="card-header bg-danger text-white text-center">
+                Give administrator priviledges to the following person
+                <a type="button" class="close" href="{{ path_for('knowledgebase') }}" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </a>
+                
+            </div>
+
+                <div class="card-block">
+                    
+                    <div>
+                    <p><em>All</em> fields are required (<span style="color:red">*</span>) and the member names and birth date must match those for the member whose number is given.</p>
+
+                    <form action="{{ path_for('postSetAdministrator') }}" method="post" autocomplete="off">
+                        <div class="form-group row">
+                            <label for="firstName" class="col-sm-3  col-form-label ml-1">First name<span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="firstName" id="firstName" placeholder="The person's first name or nickname" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastName" class="col-sm-3  col-form-label ml-1">Last Name<span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="lastName" id="lastName" placeholder="The person's last name" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="yob" class="col-sm-3  col-form-label ml-1">Year of Birth<span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                             <input type="text" class="form-control" name="yearOfBirth" id="yob" placeholder="yyyy" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="pob" class="col-sm-3  col-form-label ml-1">Member number<span style="color:red">*</span></label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="memberNo" id="memberNo" required>
+                            </div>
+                        </div>
+                        <div>
+                        Are you sure you want to do this?
+                        <button type="submit" class="btn btn-info btn-md ">Cancel</button>
+
+                        <button type="submit" class="btn btn-danger btn-md float-sm-right">Make Administrator</button>
+                        </div>
+                        {{ csrf.field | raw }}
+                    </form>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

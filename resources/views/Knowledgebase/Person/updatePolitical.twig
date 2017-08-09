@@ -1,0 +1,61 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row lower">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Update political details
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+
+			        <form method="post" action="{{ path_for('postUpdatePolitical', {'personId' : personId, 'politicalId' : political.id}) }}" autocomplete="off">
+
+			        	<div class="form-group {{ blah.start_date ? ' has-warning' : '' }}">
+				            <label for="politicalStartDate" class="form-control-label">Start date:</label>
+				            <input type="text" class="form-control{{ blah.start_date ? ' form-control-warning' : ''}} form-control-sm" id="politicalStartDate" name="start_date" value="{{ blah.start_date ? blah.start_date | first : political.start_date }}">
+				            <div class="form-control-feedback">{{ blah.start_date ? blah.start_date | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.end_date ? ' has-warning' : '' }}">
+				            <label for="politicalEndYear" class="form-control-label">End date:</label>
+				            <input type="text" class="form-control{{ blah.end_date ? ' form-control-warning' : ''}} form-control-sm" id="politicalEndYear" name="end_date" value="{{ blah.end_date ? blah.end_date | first : political.end_date }}">
+				            <div class="form-control-feedback">{{ blah.end_date ? blah.end_date | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.activity ? ' has-warning' : '' }}">
+				            <label for="politicalEndDate" class="form-control-label">Condition:</label>
+				            <input type="text" class="form-control{{ blah.activity ? ' form-control-warning' : ''}} form-control-sm" id="politicalEndDate" name="activity" value="{{ blah.activity ? blah.activity | first : political.activity }}" >
+				            <div class="form-control-feedback">{{ blah.activity ? blah.activity | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.description ? ' has-warning' : '' }}">
+				            <label for="politicalDescription" class="form-control-label">Description:</label>
+		            		<input type="text" class="form-control{{ blah.description ? ' form-control-warning' : ''}} form-control-sm" id="politicalDescription" name="description" value="{{ blah.description ? blah.description | first : political.description }}">
+		            		<div class="form-control-feedback">{{ blah.description ? blah.description | first : ''}}</div>
+			            </div>
+
+
+			            <div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="politicalSubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="politicalClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this political activity private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="private" name="private" {% if private %} checked {% endif %}>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+			            	</div>
+					    </div>
+			           {{ csrf.field | raw }}
+			        </form>
+
+			      </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

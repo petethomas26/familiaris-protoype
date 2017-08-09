@@ -1,0 +1,24 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+
+<!--
+<div class="container-fluid text-center"> 
+-->   
+
+<h3>Display of full tree</h3>
+<br>
+
+
+<div id="jstree">
+{%  for element in json  %}
+	{{ element }}
+	<br>
+
+{% endfor %}
+
+</div>
+
+<hr>
+
+{% endblock %}

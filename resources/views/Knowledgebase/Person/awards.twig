@@ -1,0 +1,64 @@
+<div class="card">
+	<div class="card-header" role="tab" id="headingAward">
+	  <h5 class="mb-0">
+	    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseAward" aria-expanded="false" aria-controls="collapseAward">
+	      Awards
+	    </a>
+	  </h5>
+	</div>
+	<div id="collapseAward" class="collapse" role="tabpanel" aria-labelledby="headingAward">
+	  <div class="card-block">
+	  	<div class="inline">
+	    	<h6>Awards (knighthoods, MBE etc.)</h6>
+				
+			<a class="btn btn-primary btn-sm" id="addAward" role="button" href="{{ path_for('addAward', {'personId' : person.id }) }}">Add Award</a>
+		</div>
+	    {% if personDetails.awards is empty %}
+	    	<span><em>None known</em></span>
+        {% else %}
+		    <table class="table table-striped table-sm .table-responsive">
+		    	<thead>
+		    		<tr>
+		    			<th>id</th>
+		    			<th>Year</th>
+		    			<th>Award</th>
+		    			<th>Description</th>
+		    			<th>Amend</th>
+		    			<th>Drop</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+	    			
+	    			{% for award in personDetails.awards %}
+	    				<tr>
+	    					<td>{{award.category.id}}</td>
+							<td>{{award.category.start_year}}</td>
+							<td>{{award.category.end_year}}</td>
+							<td>{{award.category.activity}}</td>
+							<td>{{award.category.club}}</td>
+							<td>{{award.category.description}}</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="updateAward" role="button" href="{{ path_for('updateAward', {'personId' : person.id, 'awardId' : award.category.id}) }}"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title="Amend"></i></a>
+							</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="deleteAward" role="button" href="{{ path_for('deleteAward', {'personId' : person.id, 'awardId' : award.category.id }) }}"> <i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+							</td>
+							<td>
+								{% if person.id == myPersonId %}
+									<label class="custom-control custom-checkbox">
+										{% set check = (award.private) ? "checked" : "" %}
+											<input id="privateAward" name="privateAward" type="checkbox" class="custom-control-input" {{check}} onclick="window.location = '{{ path_for("updatePrivateAward", {"personId": person.id, "awardLinkId": award.awardLinkId}) }}'">
+			  							<span class="custom-control-indicator"></span>
+			  							<span class="custom-control-description">private</span>
+									</label>
+								{% endif %}
+							</td>
+						</tr>
+	    			{% endfor %}
+	    		
+	    		</tbody>
+	    	</table>
+	    {% endif %}
+	  </div>
+	</div>
+</div>

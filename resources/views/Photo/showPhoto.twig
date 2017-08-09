@@ -1,0 +1,55 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    
+    <div class="col-sm-10 text-left"> 
+		<h4 class="bg-success display-7 pt-2 pb-2 pl-2 text-white">Prototype photo gallery.</h4>
+		
+		<hr>
+		<form method="post" action="{{ path_for('postShowPhoto') }}">
+			<div class="card-deck">
+				{% if fileNames|length > 0 %}
+					
+					{% for fname in fileNames %}
+						
+						<div class="card">
+						    <img class="card-img-top" src="{{base_url()}}/images/{{personId}}/{{fname}}" alt="Card image cap" width="180" height="180">
+						    <div class="card-block">
+								<p class="card-text">{{descriptions[fname]}}</p>
+						    </div>
+						    
+						    <div class="card-footer">
+						    	<label class="btn btn-primary btn-sm float-right">
+									<input type="radio"  name="options"  autocomplete="off" value="{{fname}}" checked>
+								</label>
+						    </div>
+						</div>
+						
+					{% endfor %}
+				{% else %}
+					<p>No photos in collection</p>
+				{% endif %}
+
+			</div>
+
+			<input type="hidden" name="personId" value="{{personId}}">
+			<!--
+			<input type="hidden" id="photoName" name="photoName" value="/images/{{personId}}/{{fname}}">
+			-->
+
+			<input class="btn btn-primary btn-md" id="selectPhotoButton" type="submit" name="select" value="select">
+			<input class="btn btn-primary btn-md" id="deletePhotoButton" type="submit" name="delete" value="delete">
+
+			<a class="btn btn-primary btn-md" type="button" href="{{ path_for('person', {'personId' :
+			 personId}) }}">Close</a>
+			{{ csrf.field | raw }}
+		
+		</form>
+	
+	</div>
+ </div>
+
+ {% endblock %}

@@ -1,0 +1,95 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="jumbotron" id="familyTree">
+  <h1 class="display-3 text-white mb-0">Family Tree</h1>
+  <p class="display-6 text-white float-right mt-4">Madeira</p>
+</div>
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower text-sm-left">
+    	<p><a href="{{ path_for('fullTree') }}">View full family tree</a></p>
+    	<p><a href="{{ path_for('unlinked') }}">List unlinked people</a></p>
+
+    </div>
+    <div class="col-sm-8 text-left"> 
+       
+        <p>Members of Familiaris are able to view the people in our knowledgebase in the form of a family tree.</p>
+        <p>You can obtain a tree which shows either all the ancestors of a specific person or all descendants of a specific person or the complete tree.
+        </p>
+        <p>
+        It is likely that the knowledgebase contains records for people who have not been linked into the family tree (because their parents or children have not been identified). You can obtain a list of all such people.
+        </p> 
+        <hr>
+        <h4>How do I display the complete family tree?</h4>
+        <p>Simply click on the button below.
+        <p>
+         <a class="btn btn-primary btn-md" href="{{ path_for('fullTree') }}" role="button">Full Tree</a>
+         <hr>
+        <h4>How do I display all ancestors or descendants of a specific person?</h4>
+        <p>Choose the type of tree and then enter the details of the person in the form below (either their reference number or name and birthdate).</p>
+
+		<form action="{{ path_for('ancestorTree') }}" method="post">
+	        <div class="form-group row">
+	            <label for="treeType" class="col-sm-4 col-form-label">Which trype of tree?</label>
+	            <div id="treeType">
+			        <div class="form-check form-check-inline">
+						<label class="form-check-label" >
+						   <input class="form-check-input" type="radio" name="treeOptions" id="maleAncestors" value="maleAncestors" checked> Male line
+						</label>
+					</div>
+
+					<div class="form-check form-check-inline">
+						<label class="form-check-label" active>
+					    	<input class="form-check-input" type="radio" name="treeOptions" id="femaleAncestors" value="femaleAncestors"> Female line
+						</label>
+					</div>
+
+			        <div class="form-check form-check-inline">
+						<label class="form-check-label" >
+						   <input class="form-check-input" type="radio" name="treeOptions" id="allAncestors" value="allAncestors"> All ancestors
+						</label>
+					</div>
+					
+				</div>
+			</div>
+
+			<div class="form-inline">
+        
+        	<label class="sr-only" for="reference">Person Reference No</label>
+		   	<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="reference" name="reference" placeholder="Reference no.">
+		   	</div>
+
+	        <br>
+	        <p>OR</p>
+      
+	        <div class="form-inline">
+			   <label class="sr-only" for="firstName">First name</label>
+			   <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 col-sm-3" id="firstName" name="firstName" placeholder="Jane">
+
+			   <label class="sr-only" for="LastName">Last name</label>
+			   <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0 col-sm-4" id="lastName" name="lastName" placeholder="Doe">
+
+			   <label class="sr-only" for="dob">Date of Birth</label>
+			   <input type="date" class="form-control mb-2 mr-sm-2 mb-sm-0 col-sm-4" id="dob" name="dob" placeholder="day">
+
+		   </div>
+		   <br>
+
+		   <button type="submit" class="btn btn-primary">Get Tree</button>
+			{{ csrf.field | raw }}
+        </form>
+        <hr>
+        <h4>How do I display all people who are not on the tree?</h4>
+        <p>Simply click on the button below</p>
+        <a class="btn btn-primary btn-md" href="{{ path_for('unlinked') }}" role="button">Unlinked people</a>
+        
+    </div>
+  </div>
+</div>
+
+
+	
+{% endblock %}

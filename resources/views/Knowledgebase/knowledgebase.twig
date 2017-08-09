@@ -1,0 +1,94 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="jumbotron" id="knowledgebase">
+  <h1 class="display-3  text-white  mb-0">Knowledgebase</h1>
+  <p class="display-6 text-white float-right mt-4">Avignon</p>
+</div>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower text-sm-left">
+      <p><a  href="{{ path_for('getMyPerson')}}">Get my details</a></p>
+      <p><a  href="{{ path_for('findPerson') }}">Find a person</a></p>
+      <p><a  href="{{ path_for('createMyPerson') }}">Add me to the knowledgebase</a></p>
+      <p><a  href="{{ path_for('createPerson', {'personId':'-1'}) }}">Add new person</a></p>
+    </div>
+    <div class="col-sm-8 text-left"> 
+        
+        <p>Our knowledgebase is a family tree. It contains data about people who are or have been members of our family. Each person is linked to their parents and children (where these are known). 
+        </p>
+        <p>
+        Each member of our website is also a person on the family tree.
+        </p>
+        As a member of Familiaris you can:
+        <ul>
+          <li>add information about yourself</li>
+          <li>state which items of information can be viewed by other members</li>
+          <li>view public data about any person in the knowledgebase</li>
+          <li>add new people to the knowledgebase</li>
+          <li>update public data about other people</li>
+          <li>control access to your children's data</li>
+          <li>invite others to become members of Familiaris</li>
+          <li>discuss issues with other members through an internal messaging system</li>
+          <li>...and much more!</li>
+        </ul>
+        
+        <h5>How do I view or edit the data about myself?</h5>
+        <p>Simply click the button below.</p>
+        <a class="btn btn-success btn-sm" href="{{ path_for('getMyPerson')}}" role="button">Get my details</a>
+        <hr>
+        <h5>How do I view or edit the data about an individual person?</h5>
+        <p>
+          If you happen to know the system identifier for the individual, this the quickest way to the required data. Otherwise, use the search facility which allows you to input whatever identifying data you happen to know about the person; the system will return a list of people that match your criteria from which you can choose the most appropriate person to view or edit.
+        </p>
+        <a class="btn btn-success btn-sm" href="{{ path_for('findPerson') }}" role="button">Find an individual</a>
+        <hr>
+        <h5>How do I add a new person to the knowledgebase?</h5>
+        <p>Simply click the button below and enter some basic data about the person.</p>
+        <a class="btn btn-success btn-sm" href="{{ path_for('createPerson', {'personId':'-1'}) }}" role="button">Add new person</a>
+        <hr>
+        <h5>How do I update the data about a Person in the knowledgebase?</h5>
+        <p>Simply click the button below and search for the required person. The person's details contained in the knowledgebase will be displayed ready to be edited.</p>
+        <a class="btn btn-success btn-sm" href="{{ path_for('createPerson', {'personId':'-1'}) }}" role="button">Update person</a>
+        <hr>
+        <h5>What happens when something goes wrong?</h5>
+        <p>If data becomes corrupt or you find that the site is being mis-used your best course of action is to contact an administrator of the website.</p>
+       <p>
+          Some members have the role of administrator. This role is required to ensure the correct functioning of the site and to resolve any issues that might arise. Precisely what abilities such a role will have, how a member becomes an administrator, how administrators resove issues and how members interact with the role have yet to be decided. 
+        </p>
+        <p>
+          The current idea is that a member will send a message to the administrators (there are likely to be several) who will collectively examine the issue and decide on an appropriate course of action. Administrators will have access to all information and will be able to correct or remove data, reinstate data that has been lost (hopefully) and perform general houskeeping activities. Administrators will also have the ability to exclude members from using the site if abuse is detected. 
+        </p>
+        <p>
+          Simple tasks can be undertaken by a single administrator; other, more controvertial tasks will require three or more administrators to agree a course of action.
+        </p>
+        <a class="btn btn-success btn-sm" href="{{ path_for('contactAdmin') }}" role="button">Contact Administartor</a>
+        
+    </div>
+
+    <div class="col-sm-2 sidenav lower">
+    
+      <a class="btn btn-success btn-sm btn-block" href="{{ path_for('notices', {'set':'0', 'no':'0', 'page':'knowledgebase'}) }}" role="button" data-toggle="tooltip" data-placement="top" title="Only the last 10 notices are shown. Click here to see all notices">Notices</a>
+
+      {% for notice in notices|reverse %}
+
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100">
+            <h6 class="mb-1">{{ notice.heading }}</h6>
+          </div>
+          <small class="mb-1 pl-0 ml-0 text-left">{{ notice.notice}}</small>
+          <small class="d-flex w-100 mb-1">{{ notice.created_at.toFormattedDateString() }}</small>
+        </div>
+
+      {% endfor %}
+
+
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

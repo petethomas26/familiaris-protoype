@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class PoliticsLink extends Model {
+	protected $table = 'political_links';
+	
+	protected $fillable = [
+		'person_id',
+		'political_id',
+		'private'
+	];
+
+
+}

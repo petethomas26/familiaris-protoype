@@ -1,0 +1,57 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-danger">
+			<div class="card">
+				<div class="card-header bg-danger text-white">
+	   				Install initial administrator [all fields are required]
+	  			</div>
+  				<div class="card-block">
+  				
+				    <form action="{{ path_for('auth.install') }}" method="post" autocomplete="off">
+				    	<div class="form-group{{ blah.memberName ? ' has-warning' : '' }}">
+				    		<label class="form-control-label" for="memberName">Name (as on registration email)</label>
+							<input type="text" name="memberName" id="memberName"  placeholder="Jane Doe"value="{{ old.memberName }}" class="form-control{{ blah.memberName ? ' form-control-warning' : ''}} form-control-sm">
+							<div class="form-control-feedback">{{ blah.memberName ? blah.memberName | first : ''}}
+							</div>
+				    	</div>
+				    	
+				    	<div class="form-group{{ blah.email ? ' has-warning' : '' }}">
+				    		<label class="form-control-label" for="email">Email (to which registration details were sent)</label>
+							<input type="email" name="email" id="email" placeholder="you@domain.com" value="{{ old.email }}" class="form-control{{ blah.email ? ' form-control-warning' : ''}} form-control-sm">
+							<div class="form-control-feedback">{{ blah.email ? blah.email | first : ''}}
+							</div>
+				    	</div>
+
+				    	<div class="form-group{{ blah.password ? ' has-warning' : '' }}">
+				    		<label class="form-control-label" for="password">Password (of your own choice)</label>
+							<input type="password" name="password" id="password" class="form-control{{ blah.password ? ' form-control-warning' : ''}} form-control-sm">
+							<div class="form-control-feedback">{{ blah.password ? blah.password | first : ''}}
+							</div>
+				    	</div>
+				    	<div class="form-group{{ blah.password_confirm ? ' has-warning' : '' }}">
+				    		<label class="form-control-label" for="password_confirm">Confirm Your Password</label>
+							<input type="password" name="password_confirm" id="password_confirm" class="form-control{{ blah.password_confirm ? ' form-control-warning' : ''}} form-control-sm">
+							<div class="form-control-feedback">{{ blah.password_confirm ? blah.password_confirm | first : ''}}
+							</div>
+				    	</div>
+				    	<div class="form-group{{ blah.registration ? ' has-warning' : '' }}">
+				    		<label class="form-control-label" for="registration">Registration Code (as on registration email)</label>
+							<input type="text" name="registration" id="registration" class="form-control{{ blah.registration ? ' form-control-warning' : ''}} form-control-sm">
+							<div class="form-control-feedback">{{ blah.registration ? blah.registration | first : ''}}
+							</div>
+				    	</div>
+				    	
+						<button type="submit" class="btn btn-danger">Install</button>
+
+						{{ csrf.field | raw }}
+				    </form>
+				    
+				 </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

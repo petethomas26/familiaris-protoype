@@ -1,0 +1,71 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row lower">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Update employment details
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+
+			        <form method="post" action="{{ path_for('postUpdateEmployment', {'personId' : personId, 'employmentId' : employment.id}) }}" autocomplete="off">
+
+			            <div class="form-group {{ blah.job_title ? ' has-warning' : '' }}">
+				            <label for="employmentJobTitle" class="form-control-label">Job title:</label>
+				            <input type="text" class="form-control{{ blah.job_title ? ' form-control-warning' : ''}} form-control-sm" id="employmentJobTitle" name="jobTitle" value="{{ blah.job_title ? blah.job_title | first : employment.job_title }}" >
+				            <div class="form-control-feedback">{{ blah.job_title ? blah.job_title | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.employer ? ' has-warning' : '' }}">
+				            <label for="employmentEmployer" class="form-control-label">Employer:</label>
+				            <input type="text" class="form-control{{ blah.employer ? ' form-control-warning' : ''}} form-control-sm" id="employmentEmployer" name="employer" value="{{ blah.employer ? blah.employer | first : employment.emmployer }}">
+				            <div class="form-control-feedback">{{ blah.employer ? blah.employer | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.location ? ' has-warning' : '' }}">
+				            <label for="employerLocation" class="form-control-label">Location:</label>
+		            		<input type="text" class="form-control{{ blah.location ? ' form-control-warning' : ''}} form-control-sm" id="employerLocation" name="location" value="{{ blah.location ? blah.location | first : employment.location }}">
+		            		<div class="form-control-feedback">{{ blah.location ? blah.location | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group{{ blah.startDate ? ' has-warning' : '' }} row">
+			            <label for="employmentStartDateDate" class="col-sm-5 form-control-label">Employment start date:</label>
+				            <div class="col-sm-7">
+				            	<input type="text" class="form-control{{ blah.startDate ? ' form-control-warning' : ''}} form-control-sm" id="employmentStartDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="startDate" value="{{ old.startDate }}" required>
+				            	<div class="form-control-feedback">{{ blah.startDate ? blah.startDate | first : ''}}</div>
+			            	</div>
+			        	</div>
+
+			        	<div class="form-group{{ blah.endDate ? ' has-warning' : '' }} row">
+			            <label for="employmentEndDate" class="col-sm-5 form-control-label">Employment end date:</label>
+				            <div class="col-sm-7">
+				            	<input type="text" class="form-control{{ blah.endDate ? ' form-control-warning' : ''}} form-control-sm" id="employmentEndDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="endDate" value="{{ old.endDate }}" required>
+				            	<div class="form-control-feedback">{{ blah.endDate ? blah.endDate | first : ''}}</div>
+			            	</div>
+			        	</div>
+
+
+			            <div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="employmentSubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="employmentClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this employment private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="private" name="private" {% if private %} checked {% endif %}>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+			            	</div>
+					    </div>
+			           {{ csrf.field | raw }}
+			        </form>
+
+			      </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

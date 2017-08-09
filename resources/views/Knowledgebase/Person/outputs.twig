@@ -1,0 +1,63 @@
+<div class="card">
+	<div class="card-header" role="tab" id="headingOutput">
+	  <h5 class="mb-0">
+	    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseOutput" aria-expanded="false" aria-controls="collapseOutput">
+	      Outputs
+	    </a>
+	  </h5>
+	</div>
+	<div id="collapseOutput" class="collapse" role="tabpanel" aria-labelledby="headingOutput">
+	  <div class="card-block">
+	  	<div class="inline">
+	    	<h6>Outputs (publications, music, artifacts etc. with collaborators)</h6>
+
+			 <a class="btn btn-primary btn-sm" id="addOutput" role="button" href="{{ path_for('addOutput', {'personId' : person.id }) }}">Add Output</a>
+			 </div>
+	    {% if personDetails.outputs is empty %}
+	    	<span><em>None known</em></span>
+        {% else %}
+		    <table class="table table-striped table-sm .table-responsive">
+		    	<thead>
+		    		<tr>
+		    			<th>id</th>
+		    			<th>Year</th>
+		    			<th>Output</th>
+		    			<th>Collaborator</th>
+		    			<th>Description</th>
+		    			<th>Amend</th>
+		    			<th>Drop</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+    			
+	    			{% for output in personDetails.outputs %}
+	    				<tr>
+	    					<td>{{output.category.id}}</td>
+							<td>{{output.category.year}}</td>
+							<td>{{output.category.output}}</td>
+							<td>{{output.category.collaborator}}</td>
+							<td>{{output.category.description}}</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="updateOutput" role="button" href="{{ path_for('updateOutput', {'personId' : person.id, 'outputId' : output.category.id}) }}"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title="Amend"></i></a>
+							</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="deleteOutput" role="button" href="{{ path_for('deleteOutput', {'personId' : person.id, 'outputId' : output.category.id }) }}"> <i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+							</td>
+							<td>
+								{% if person.id == myPersonId %}
+									<label class="custom-control custom-checkbox">
+										{% set check = (output.private) ? "checked" : "" %}
+											<input id="privateOutput" name="privateOutput" type="checkbox" class="custom-control-input" {{check}} onclick="window.location = '{{ path_for("updatePrivateOutput", {"personId": person.id, "outputLinkId": output.outputLinkId}) }}'">
+			  							<span class="custom-control-indicator"></span>
+			  							<span class="custom-control-description">private</span>
+									</label>
+								{% endif %}
+							</td>
+						</tr>
+	    			{% endfor %}
+	    		</tbody>
+	    	</table>
+	    {% endif %}
+	  </div>
+	</div>
+</div>

@@ -1,0 +1,735 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower text-sm-left">
+ 		<div><a href="{{ path_for('remember', {'memberId' : memberId, 'personId' : person.id }) }}">Remember person</a></div>
+     	<div><a href="{{ path_for('forget', {'memberId': memberId, 'personId' : person.id}) }}">Forget person</a></div>
+     	<p><a href="{{ path_for('favourites', {'memberId': memberId, 'personId' : person.id}) }}">List people</a></p>
+     	<a href="{{ path_for('getMyPerson') }}">Show my details</a>
+     	{% set name = person.shortName() %}
+     	<p><a href="{{ path_for('myAncestorTree', {'personId' : person.id, 'personName' : name}) }}">Show my ancestors</a></p>
+    	<div><a href="{{ path_for('findPerson') }}">Find person</a></div>
+     	<div><a href="{{ path_for('createPerson', {'personId' : person.id}) }}">Add new person</a></div>
+    </div>
+
+    <div class="col-sm-10 text-left"> 
+       {% if person is not empty %}
+
+       	{% set isChild = (person.isChild()) ? 'Child' : 'Adult' %}
+       	{% set isAdministrator = (status == 3) ? 'Administrator' : '' %}
+       	{% set isChildOfMember = (person.childOfMember() ? 'YES' : 'NO') %}
+
+			<h4 class="bg-primary text-white text-center py-2 px-2">{{ personDetails.name }} - Person no: {{ person.id }},  {{ isChild }}, {{isAdministrator}}</h4>
+			
+				<!--Identification details-->
+			
+				<div class="card-group mb-2">
+				  <div class="card">
+				    <div class="card-block">
+
+						{% if  person.photo_name == null %}
+				      		<img class="img-thumbnail" src="{{ base_url() }}/images/noimage.png" width="200" height="240" alt="Card image cap">
+				      	{% else %}
+							<img class="img-thumbnail" src="{{ base_url() }}/images/{{person.id}}/{{person.photo_name}}.{{person.photo_extension}}" width="200" height="240" alt="Photo of person" data-toggle="tooltip" data-placement="top" title="Click on 'Show Photo Gallery' to change photo">
+				      	{% endif %}
+						<!--
+				      	<p class="card-text">This area to be used for gallery controls.</p>
+						-->
+				      	<!-- Button trigger modal for upload images -->
+				      	<br>
+						<button type="button" class="btn btn-primary btn-sm ml-2" data-toggle="modal" data-target="#imageUploadModal" data-whatever="Image Upload">
+						  Upload New Image
+						</button>
+
+						<a class="btn btn-primary btn-sm ml-2" href="{{ path_for('showPhoto', {'personId' : person.id}) }}">
+							Show Photo Gallery
+						</a>
+						<hr>
+
+						<table class="table table-bordered table-sm">
+			                <tbody>
+		                    	<tr>
+									<td>
+		                    			Mother: 
+		                    		</td>
+			                    	<td>
+					                    {% if person.mother == 0 %}
+				                    		<span><em>Unknown</em></span>
+			                    		{% else %}
+			                    			<a href="{{ path_for('person', {'personId' : person.mother }) }}">{{ personDetails.motherName }}</a>
+			                    		{% endif %}
+		                    		</td>
+		                    		<td>
+					                    <!-- Button trigger modal -->
+					                    
+										<button type="button" class="btn btn-primary btn-sm ml-2" data-toggle="modal" data-target="#personModal" data-persontype="mother" data-personid={{person.id}}>
+										  Change
+										</button>
+									</td> 
+								</tr>
+								
+								<tr>
+				            		<td>
+				                    	Father:
+				                    </td>
+				                    <td>
+				                    	{% if person.father == 0 %}
+				                    		<span><em>Unknown</em></span>
+			                    		{% else %}
+			                    			<a href="{{ path_for('person', {'personId' : person.father }) }}">{{ personDetails.fatherName }} </a>
+			                    		{% endif %}
+			                    	</td>
+			                    	<td>
+				                    	<!-- Button trigger modal -->
+				                    	
+										<button type="button" class="btn btn-primary btn-sm ml-2" data-toggle="modal" data-target="#personModal" data-persontype="father" data-personid= {{person.id}}>
+										  Change
+										</button>
+									</td>
+		            			</tr>
+			            
+		                    	<tr>
+				                    <td>
+				                    	 Partner / Spouse:
+				                    </td>
+				                    <td>
+				                    	{% if personDetails.currentPartnerName == "" %}
+				                    		<span><em>Unknown</em></span>
+			                    		{% else %}
+			                    			<a class="mr-2"  href="{{ path_for('person', {'personId' : person.current_partner }) }}">{{ personDetails.currentPartnerName }}</a>
+			                    		{% endif %}
+			                    	</td>
+			                    	<td>
+			                    		<button type="button" class="btn btn-info btn-sm ml-2" data-toggle="tooltip" data-placement="top" title="Amend partner/spouse in the Marriages and Civil Partnerships section below.">
+										Note
+										</button>
+									</td>
+								</tr>
+
+								
+
+								<!-- Siblings -->
+								<tr>
+									<td>
+			                    		Siblings:
+			                    	</td>
+
+			                    	<td>
+				                    	{% if personDetails.siblings is empty %}
+											<span><em>None known</em></span>
+				                    	{% else %}
+					                    	{% for sibling in personDetails.siblings %}
+					                    		<a class="mr-2"  href="{{ path_for('person', {'personId' : sibling.id }) }}">{{ sibling.name }}</a>
+					                    		
+					                    	{% endfor %}
+				                    	{% endif %}
+			                    	</td>
+
+				                    <td>
+				                    	
+										<button type="button" class="btn btn-info btn-sm ml-2"  data-toggle="tooltip" data-placement="top" title="A sibling is a child of either this person's mother and/or father. To change, go to the sibling's record (click on their name) and change (one of) their parents.">
+										  Note
+										</button>
+									</td>
+				                </tr>
+
+								<!-- Children -->
+								<tr>
+									<td>
+			                    		Children:
+			                    	</td>
+
+			                    	<td>
+				                    	{% if personDetails.children is empty %}
+											<span><em>None known</em></span>
+				                    	{% else %}
+					                    	{% for child in personDetails.children %}
+					                    		<a class="mr-2"  href="{{ path_for('person', {'personId' : child.id }) }}">{{ child.name }}</a>
+					                    		
+					                    	{% endfor %}
+				                    	{% endif %}
+			                    	</td>
+
+				                    <td>
+				                    	
+										<button type="button" class="btn btn-info btn-sm ml-2"  data-toggle="tooltip" data-placement="top" title="To change the relationship between one of these children and this person, go to the record for the child (click on their name) and change their mother and/or father.">
+										  Note
+										</button>
+									</td>
+				                </tr>
+
+					      	</tbody>
+						</table>					
+				    </div>
+				</div>
+
+				<div class="card">
+				    <div class="card-block">
+				    	<form method="post" action="{{ path_for('postUpdatePerson', {'personId':person.id}) }}" autocomplete="off">
+							<table class="table table-hover table-sm">
+						  		<tbody>
+						  			<tr>
+								    	<td>
+											Title
+								    	</td>
+								    	<td>
+								    		<div>
+		            							<input type="text" class="form-control{{ blah.title ? ' form-control-warning' : ''}} form-control-sm editable" id="title" name="title" value="{{ blah.title ? blah.title | first : person.title }}" {% if not editable %} disabled {% endif %}>
+		            						</div>
+								    	</td>
+								    </tr>
+
+								    <tr>
+								    	<td>
+								    		<span data-toggle="tooltip" data-placement="top" title="A person may have been known by several names. This should be this person's given (birth) name. Other first names should be listed under 'Nickname'.">
+											First Name
+											</span>
+								    	</td>
+								    	<td>
+								    		<div>
+		            							<input type="text" class="form-control{{ blah.first_name ? ' form-control-warning' : ''}} form-control-sm editable" id="firstName" name="firstName" value="{{ blah.first_name ? blah.first_name | first : person.first_name }}" {% if not editable %} disabled {% endif %}>
+		            						</div>
+								    	</td>
+								    </tr>
+
+									<tr>
+										<td>
+											<span data-toggle="tooltip" data-placement="top" title="A person may have been known by several first names (nicknames). To add or amend the list of alternative first names for this person click 'More'.">
+											Nickname
+											</span>
+										</td>
+										<td>
+											<div class="input-group">
+												{% if personDetails['nicknames']|length != 0 %}
+
+													<div class="dropdown ">
+				            							<a class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{personDetails['nicknames'][0]['name']}}</a>
+				            							{% if personDetails['nicknames']|length > 1 %}
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																{% for name in personDetails['nicknames'] %}
+																	{% if not loop.first %}
+																		<a class="dropdown-item btn-sm">{{name.name}}</a>
+																	{% endif %}
+																{% endfor %}
+															</div>
+														{% endif %}
+				            						</div>
+				            						<input type="hidden" name="nickname" value="{{person.nickname}}">	
+												{% else %}
+													
+			            							<input type="text" class="form-control{{ blah.nickname ? ' form-control-warning' : ''}} form-control-sm editable" id="nickname" name="nickame" value="{{ blah.nickname ? blah.nickname | first : person.nickname }}" {% if not editable %} disabled {% endif %}>
+			            							<div class="form-control-feedback">{{ blah.nickname ? blah.nickname | first : ''}}</div>
+			            							
+												{% endif %}
+												<span>
+													<button type="button"  id="nickameButton" class="btn btn-primary btn-sm ml-2 text-white editable" data-toggle="modal" data-target="#nicknameModal" aria-expanded="false" aria-controls="nicknameModal" data-toggle="tooltip" data-placement="top" title="Add/amend nicknames." {% if not editable %} disabled {% endif %}>
+														More
+													</button>
+												</span>
+
+												<!--
+		            							<input type="text" class="form-control{{ blah.nickname ? ' form-control-warning' : ''}} form-control-sm editable" id="middleName" name="nickname" value="{{ blah.nickname ? blah.nickname | first : person.nickname }}" {% if not editable %} disabled {% endif %}>
+		            							-->
+		            						</div>
+										</td>
+									</tr>
+
+									<tr>	
+										<td>
+											<span data-toggle="tooltip" data-placement="top" title="A list of any other given (birth) names or middle initials.">
+											Middle Name
+											</span>
+										</td>
+										<td>
+											<div>
+		            							<input type="text" class="form-control{{ blah.middle_name ? ' form-control-warning' : ''}} form-control-sm editable" id="middleName" name="middleName" value="{{ blah.middle_name ? blah.middle_name | first : person.middle_name }}" {% if not editable %} disabled {% endif %}>
+		            						</div>
+										</td>
+									</tr>
+
+									<tr>	
+										<td>
+											<span data-toggle="tooltip" data-placement="top" title="A person may have been known by several names (due to marriage, for example). To add or amend the list of last names for this person click 'More'.">
+											Last Name
+											</span>
+										</td>
+										<td>
+											<div class="input-group">
+												{% if personDetails['lastNames']|length != 0 %}
+														<div class="dropdown ">
+					            							<a class="btn btn-secondary btn-sm dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{person.last_name}}</a>
+															<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+																{% for name in personDetails['lastNames'] %}
+																	<a class="dropdown-item btn-sm">{{name.name}}</a>
+																{% endfor %}
+															</div>
+					            						</div>
+					            						<input type="hidden" name="lastName" value="{{person.last_name}}" >
+					            						
+												{% else %}
+													
+				            							<input type="text" class="form-control{{ blah.last_name ? ' form-control-warning' : ''}} form-control-sm editable" id="lastName" name="lastName" value="{{ blah.last_name ? blah.last_name | first : person.last_name }}" {% if not editable %} disabled {% endif %}>
+				            							<div class="form-control-feedback">{{ blah.last_name ? blah.last_name | first : ''}}</div>
+			            							
+												{% endif %}
+												<span>
+													<button type="button"  id="lastNameButton" class="btn btn-primary btn-sm ml-2 text-white editable" data-toggle="modal" data-target="#lastNameModal" aria-expanded="false" aria-controls="lastNameModal" data-toggle="tooltip" data-placement="top" title="Add/amend more last names." {% if not editable %} disabled {% endif %}>
+															  More
+													</button>
+												</span>
+											</div>
+										</td>	
+									</tr>
+
+									<tr>	
+										<td>
+		                    				Date of Birth
+		                    			</td>
+		                    			<td>
+		                    				<div class="input-group">
+			                    				
+			                    					{% set dob = person.date_of_birth|date("d/m/Y")  %}
+				            						<input type="text" class="form-control{{ blah.date_of_birth ? ' form-control-warning' : ''}} form-control-sm editable" id="dateOfBirth" name="dateOfBirth" data-provide="datepicker"  data-date-orientation="top left" data-date-startview="year" data-date-autoclose="true" data-date-format="dd/mm/yyyy" value="{{ blah.date_of_birth ? blah.date_of_birth | first : dob }}" {% if not editable %} disabled {% endif %}>
+				            						<div class="form-control-feedback">{{ blah.date_of_birth ? blah.date_of_birth | first : ''}}</div>
+				            					
+				                    			<span>
+													<button type="button" class="btn btn-primary btn-sm  ml-2 text-white editable" id="unsureDateOfBirthFlag"   value = "{{person.unsure_date_of_birth}}" {% if not editable %} disabled {% endif %}>
+													<i class="fa {{ person.unsure_date_of_birth == 0 ? 'fa-check' : 'fa-question'}}" id="unsureDateOfBirthImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the date is correct; '?' means that the date may not be accurate; click to change."></i></button>
+													<input type="hidden" id="unsureDOBFlag" name="unsureDateOfBirthFlag" value="{{ person.unsure_date_of_birth }}">
+												</span>
+											</div>
+										</td>
+					            	</tr>
+
+					            	<tr>
+			            				<td>
+			                    			Place of Birth
+			                    		</td>
+			                    		<td>
+			                    			<div class="input-group">
+		            							<input type="text" class="form-control{{ blah.birth_location ? ' form-control-warning' : ''}} form-control-sm editable" id="birthLocation" name="placeOfBirth" value="{{ blah.birth_location ? blah.birth_location | first : person.birth_location }}" {% if not editable %} disabled {% endif %}>
+		            							<div class="form-control-feedback">{{ blah.birth_location ? blah.birth_location | first : ''}}</div>
+
+		            							<span>
+													<button type="button" class="btn btn-primary btn-sm  ml-2 text-white editable" id="unsurePlaceOfBirthFlag"  value = "{{person.unsure_place_of_birth}}" {% if not editable %} disabled {% endif %}>
+													<i class="fa {{ person.unsure_place_of_birth == 0 ? 'fa-check' : 'fa-question'}}" id="unsurePlaceOfBirthImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the place is correct; '?' means that the place may not be accurate; click to change."></i></button>
+													<input type="hidden" id="unsurePOBFlag" name="unsurePlaceOfBirthFlag" value="{{ person.unsure_date_of_birth }}">
+												</span>
+		            						</div>
+			                    		</td>
+									</tr>
+
+									<tr>
+			            				<td>
+			                    			Nationality
+			                    		</td>
+			                    		<td>
+			                    			<div>
+		            							<input type="text" class="form-control{{ blah.nationality ? ' form-control-warning' : ''}} form-control-sm editable" id="nationality" name="nationality" value="{{ blah.nationality ? blah.nationality | first : person.nationality }}" {% if not editable %} disabled {% endif %}>
+		            							<div class="form-control-feedback">{{ blah.nationality ? blah.nationality | first : ''}}</div>
+		            						</div>
+			                    		</td>
+									</tr>
+
+									<tr>
+			            				<td>
+			            					<div data-toggle="tooltip" data-placement="top" title="Gender at birth.">
+			                    			Gender
+			                    			</div>
+			                    		</td>
+			                    		<td>
+			                    			<div>
+												<select id="gender" name="gender" class="form-control{{ blah.gender ? ' form-control-warning' : ''}} form-control-sm editable" id="gender" class="form-control{{ blah.gender ? ' form-control-warning' : ''}} form-control-sm editable" value="{{ blah.gender ? blah.gender | first : person.gender }}" {% if not editable %} disabled {% endif %}>
+													<option value="unknown" {% if person.gender=="unknown" %} selected {% endif %} >Unknown</option>
+													<option value="male" {% if person.gender=="male" %} selected {% endif %}>Male</option>
+													<option value="female" {% if person.gender=="female" %} selected {% endif %}>Female</option>
+													<option value="other" {% if person.gender=="other" %} selected {% endif %}>Other</option>
+												</select>
+												<div class="form-control-feedback">{{ blah.gender ? blah.gender | first : ''}}</div>
+
+		            						</div>
+			                    		</td>
+									</tr>
+
+									<tr>
+			            				<td>
+			            					<div data-toggle="tooltip" data-placement="top" title="If person is alive they may be a member and restrictions on editing may apply">
+			                    				<span id="state">Status</span>
+			                    			</div>
+			                    		</td>
+			                    		<td>
+			                    	
+			                    			<span id="alive">Alive</span>
+			                    		
+			                    			<button type="button"  id="stateButton" class="btn btn-primary btn-sm ml-2 float-right editable" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" {% if not editable %} disabled {% endif %}>
+												  Change
+											</button>
+			                    		</td>
+						            </tr>
+
+					        	</tbody>
+					    	</table>
+
+							<div class="collapse" id="collapseExample">
+				            	
+								<table class="table table-hover table-sm">
+									<body>
+							        	<tr>
+				            				<td>
+				                    			Date of Death
+				                    		</td>
+				                    		<td>
+			                    				<div class="input-group">
+													{% set dob = person.getDate(person.date_of_death)  %}
+			            							<input type="text" class="form-control{{ blah.date_of_death ? ' form-control-warning' : ''}} form-control-sm editable" id="dateOfDeath" name="dateOfDeath" data-provide="datepicker"  data-date-orientation="top left" data-date-startview="year" data-date-autoclose="true" data-date-format="dd/mm/yyyy" value="{{ blah.date_of_death ? blah.date_of_death | first : person.date_of_death }}" {% if not editable %} disabled {% endif %}>
+			            							<div class="form-control-feedback">{{ blah.date_of_death ? blah.date_of_death | first : ''}}</div>
+				            					
+					                    			<span>
+														<button type="button" class="btn btn-primary btn-sm  ml-2 text-white editable" id="unsureDateOfDeathFlag" value = "{{person.unsure_date_of_death}}" {% if not editable %} disabled {% endif %}>
+														<i class="fa {{ person.unsure_date_of_death == 0 ? 'fa-check' : 'fa-question'}}" id="unsureDateOfDeathImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the date is correct; '?' means that the date may not be accurate; click to change."></i></button>
+														<input type="hidden" id="unsureDODFlag" name="unsureDateOfDeathFlag" value="{{ person.unsure_date_of_death }}">
+													</span>
+												</div>
+				                    		</td>			            			
+				            			</tr>
+
+				            			<tr>
+				            				<td>
+				                    			Place of Death
+				                    		</td>
+				                    		<td>
+				                    			<div class="input-group">
+			            							<input type="text" class="form-control{{ blah.death_location ? ' form-control-warning' : ''}} form-control-sm editable" id="deathLocation" name="placeOfDeath" value="{{ blah.death_location ? blah.death_location | first : person.death_location }}" {% if not editable %} disabled {% endif %}>
+			            							<div class="form-control-feedback">{{ blah.death_location ? blah.death_location | first : ''}}</div>
+
+			            							<span>
+														<button type="button" class="btn btn-primary btn-sm  ml-2 text-white editable" id="unsurePlaceOfDeathFlag"  value = "{{person.unsure_place_of_death}}" {% if not editable %} disabled {% endif %}>
+														<i class="fa {{ person.unsure_place_of_death == 0 ? 'fa-check' : 'fa-question'}}" id="unsurePlaceOfDeathImage" data-toggle="tooltip" data-placement="top" title="Unsure flag. A tick means the place is correct; '?' means that the place may not be accurate; click to change."></i></button>
+														<input type="hidden" id="unsurePODFlag" name="unsurePlaceOfDeathFlag" value="{{ person.unsure_date_of_death }}">
+													</span>
+			            						</div>
+				                   			</td>
+				            			</tr>
+
+				            		</body>
+								</table>
+				        	</div>
+
+							
+							<div id="accordionUsefulIds" role="tablist" aria-multiselectable="true">
+								<div class="card">
+									<div class="card-header" role="tab" id="headingUsefulIds">
+										<h6 class="mb-0">
+										    <a data-toggle="collapse" data-parent="#accordion" href="#collapseUsefulIds" aria-expanded="true" aria-controls="collapseUsefulIds">
+										      	Useful ID Numbers (click here to reveal)
+										    </a>
+										</h6>
+									</div>
+
+									<div id="collapseUsefulIds" class="collapse" role="tabpanel" aria-labelledby="headingUsefulIds">
+									  	<div class="card-block">
+									  		<table class="table table-hover table-sm">
+										  		<tbody>
+										  			<tr>
+												    	<td>
+							                    			Nat. Ins. No.
+							                    		</td>
+							                    		<td>
+							                    			<div>
+						            							<input type="text" class="form-control{{ blah.nat_ins_no ? ' form-control-warning' : ''}} form-control-sm editable" id="natinsno" name="natinsno" value="{{ blah.nat_ins_no ? blah.nat_ins_no | first : person.nat_ins_no }}" {% if not editable %} disabled {% endif %}>
+						            							<div class="form-control-feedback">{{ blah.nat_ins_no ? blah.nat_ins_no | first : ''}}</div>
+						            						</div>
+							                    		</td>
+												    </tr>
+
+												    <tr>
+							            				<td>
+							                    			Passport No.
+							                    		</td>
+							                    		<td>
+							                    			<div>
+						            							<input type="text" class="form-control{{ blah.passport_no ? ' form-control-warning' : ''}} form-control-sm editable" id="passportNo" name="passportNo" value="{{ blah.passport_no ? blah.passport_no | first : person.passport_no }}" {% if not editable %} disabled {% endif %}>
+						            							<div class="form-control-feedback">{{ blah.passport_no ? blah.passport_no | first : ''}}</div>
+						            						</div>
+							                    		</td>
+													</tr>
+
+													<tr>
+												    	<td>
+							                    			Driving License No.
+							                    		</td>
+							                    		<td>
+							                    			<div>
+						            							<input type="text" class="form-control{{ blah.nat_ins_no ? ' form-control-warning' : ''}} form-control-sm editable" id="natinsno" name="natinsno" value="{{ blah.nat_ins_no ? blah.nat_ins_no | first : person.nat_ins_no }}" {% if not editable %} disabled {% endif %}>
+						            							<div class="form-control-feedback">{{ blah.nat_ins_no ? blah.nat_ins_no | first : ''}}</div>
+						            						</div>
+							                    		</td>
+												    </tr>
+
+												</body>
+											</table>	
+										</div> 
+									</div>
+								</div>
+							</div>
+
+							<p></p>
+											
+							<div>
+					        	<a class="btn btn-primary btn-md float-sm-left" id="editPerson" role="button" href="#" data-toggle="tooltip" data-placement="top" title="Click here to enable the fields above to be edited.">Enable Editing</a>
+								<button type="submit" class="btn btn-primary btn-md float-sm-right" id="saveChanges"  disabled>Save Changes</button>
+							</div>
+		            		{{ csrf.field | raw }}
+		            	</form>
+				    </div>
+				    
+				  </div>
+
+				</div>
+
+			<!--</form>-->
+
+			<!--Personal History:
+			A child can only be seen by a parent
+			the current member can see themselves
+			-->
+
+			{% if isChild == 'Child' and isChildOfMember == 'NO' %}
+				<h6 id="personalDetails" class="bg-primary text-white text-center py-2 px-2">Personal History - only accessible to this child's parents</h6>
+
+			{% else %}
+						
+				<h6 id="personalDetails" class="bg-primary text-white text-center py-2 px-2">Personal History (click on heading to reveal details)</h6>
+
+				
+				<div id="accordion" role="tablist" aria-multiselectable="true">
+					<!--Marriage/partnerships-->
+					{% include 'knowledgebase/person/partnerships.twig' %}
+
+					<!--Domiciled-->
+					{% include 'knowledgebase/person/addresses.twig' %}
+
+					<!--Education-->
+					{% include 'knowledgebase/person/educations.twig' %}
+
+					<!-- Medical -->
+					{% include 'knowledgebase/person/medicals.twig' %}
+
+					<!-- Sports & pastimes details -->
+					{% include 'knowledgebase/person/pastimes.twig' %}
+
+					<!-- Carrers and Employment -->
+					{% include 'knowledgebase/person/employments.twig' %}
+
+					<!-- Awards -->
+					{% include 'knowledgebase/person/awards.twig' %}
+
+					<!-- Service -->
+					{% include 'knowledgebase/person/services.twig' %}
+					
+					<!-- Politics -->
+					{% include 'knowledgebase/person/politicals.twig' %}
+
+					<!-- Outputs -->
+					{% include 'knowledgebase/person/outputs.twig' %}
+
+					<!-- Military service -->
+					{% include 'knowledgebase/person/militaries.twig' %}
+					
+					<!-- Memories -->
+					{% include 'knowledgebase/person/memories.twig' %}
+					
+					<!-- Notes -->
+					{% include 'knowledgebase/person/notes.twig' %}
+				</div>
+			{% endif %}
+
+			<br>
+	        <a class="btn btn-primary btn-md finishPerson" id="finishPersonBottom" role="button" href="{{ path_for('knowledgebase') }}" >Finish</a>
+	        <a class="btn btn-primary btn-md" id="rememberPerson" role="button" href="{{ path_for('remember', {'memberId' : memberId, 'personId' : person.id }) }}" >Remember this Person</a>
+
+			<!-- Modal for image upload -->
+
+			<div class="modal fade" id="imageUploadModal" tabindex="-1" role="dialog" aria-labelledby="imageUploadModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="imageUploadModalLabel">Image Upload </h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <form id="uploadimage" action="{{ path_for('uploadPhoto', {'personId' : person.id}) }}" method="post" enctype="multipart/form-data" autocomplete="off">
+				      <div class="modal-body">
+						<div class="main">
+							
+							<div id="image_preview" class="form-group">
+								<img id="previewing" class="img-thumbnail" src="{{ base_url() }}/images/noimage.png" width="200" height="240"/>
+								
+							</div>
+							
+							<div id="selectImage" class="form-group">
+								<label>Select Your Image </label><br/>
+								<input class="btn btn-outline-primary" type="file" name="file" id="file" required />
+								<input type="hidden" name="image_id" id="image_id" value="2" class="submit" />
+								<br><br>
+								<label> Add a description for your image</label><br>
+								<textarea type="hidden" id="description"  rows = "2" cols="39" name="description"></textarea>
+								
+			          			{{ csrf.field | raw }}
+							</div>
+
+			      		</div>
+				      </div>
+				      <div class="modal-footer">
+				      	<input type="submit" class="btn btn-outline-primary" value="Upload" class="submit" />
+				        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Close</button>
+				   	  </div>
+			   	  </form>
+			   </div>
+			 </div>
+			</div>
+
+			<!-- Modal for person-->
+
+			<div class="modal fade" id="personModal" tabindex="-1" role="dialog" aria-labelledby="personModalLabel" aria-hidden="true">
+			  {% include 'templates/partials/personModal.twig' %}
+			</div>
+
+			<!-- modal for alternative last names -->
+			<div class="modal fade" id="lastNameModal" tabindex="-1" role="dialog" aria-labelledby="lastNameModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="lastNameModalLabel">Alternative Last Names</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<p>People can have several last names throughout their lives - maiden names are an example. Here you can set a person's current/final last name and list all previous last names. </p>
+
+			      	<div>
+						<form method="post" action="{{path_for('addCurrentLastName', {'personId' : person.id}) }}" autocomplete="off">
+				      		<div class="form-group">
+					            <strong>Current/Final Last Name:</strong>
+					            <input type="text" class="form-control-sm" id="currentLastName" name="currentLastName" value={{person.last_name}}>
+					            <button class="btn btn-primary btn-sm" id="addCurrentLastName" role="submit">Set</button>
+				          	</div>
+				          	{{ csrf.field | raw }}
+			          	</form>
+
+						<div class="form-group">						
+					        <strong>Previous Last Name(s):</strong>
+							{% if  personDetails['lastNames'] | length == 0 %}
+								<em>  None known</em>
+							{% else %}
+								<ul class="table table-hover table-sm">
+								  	
+								  	{% for lastName in personDetails['lastNames'] %}
+								  			
+								    	<li>
+											{{ lastName['name'] }}
+								    	
+											<a class="btn btn-primary btn-sm" id="deletePreviousLastName" role="button" href="{{ path_for('deletePreviousLastName', {'personId' : person.id, 'lastNameId' : lastName['id'] }) }}"><i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+											
+										</li>
+									{% endfor %}	
+								
+							{% endif %}
+								</ul>
+						</div>
+                        
+                        <form method="post" action="{{path_for('addPreviousLastName', {'personId' : person.id}) }}" autocomplete="off">
+							<div >
+					            <strong>New Previous Last Name:</strong>
+					            <input type="text" class="form-control-sm" id="previousLastName" name="previousLastName">
+					            <button class="btn btn-primary btn-sm" role="submit">Add</button>
+				          	</div>
+				          	{{ csrf.field | raw }}
+			          	</form>
+
+			      	</div>
+
+			      </div>
+
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			   	  </div>
+			    </div>
+			  </div>
+			</div>
+
+			<!-- modal for alternative first names (nicknames)-->
+			<div class="modal fade" id="nicknameModal" tabindex="-1" role="dialog" aria-labelledby="nicknameModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="nicknameModalLabel">Alternative First Names (Nicknames)</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+			      	<p>People can be known by several first names throughout their lives, by their own choice or given by parents, school and work colleagues, for example. Here you can add or amend a list of a person's nicknames. (A person's given (birth) name should be recorded under 'First Name'.</p>
+
+			      	<div>
+
+						<div class="form-group">						
+					        <strong>Nickname(s):</strong>
+							{% if  personDetails['nicknames'] | length == 0 %}
+								<em>  None known</em>
+							{% else %}
+								<ul class="table table-hover table-sm">
+								  	
+								  	{% for nickname in personDetails['nicknames'] %}
+								  			
+								    	<li>
+											{{ nickname['name'] }}
+								    	
+											<a class="btn btn-primary btn-sm" id="deleteNickname" role="button" href="{{ path_for('deleteNickname', {'personId' : person.id, 'nicknameId' : nickname['id'] }) }}"><i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+											
+										</li>
+									{% endfor %}	
+								
+							{% endif %}
+								</ul>
+						</div>
+                        
+                        <form method="post" action="{{path_for('addNickname', {'personId' : person.id}) }}" autocomplete="off">
+							<div >
+					            <strong>New Nickname:</strong>
+					            <input type="text" class="form-control-sm" id="addNickname" name="nickname">
+					            <button class="btn btn-primary btn-sm" role="submit">Add</button>
+				          	</div>
+				          	{{ csrf.field | raw }}
+			          	</form>
+
+			      	</div>
+
+			      </div>
+
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			   	  </div>
+			    </div>
+			  </div>
+			</div>
+
+
+
+
+		{% else %}
+			<h4>There are no Person details to show.</h4>
+		{% endif %}
+
+		</div>
+
+	</div>
+
+</div>
+
+{% endblock %}

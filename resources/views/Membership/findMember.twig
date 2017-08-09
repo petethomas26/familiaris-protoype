@@ -1,0 +1,23 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<h4>Search for a Member</h4>
+        <p>Fill in the following form with as many details as you have.</p>
+
+        <form action="{{ path_for('postFindMember') }}" method="post" autocomplete="off">
+            <fieldset class="form-group">
+                <label for="memberName">Member name</label>
+                <div class="form-inline">
+                    <input type="text" class="form-control" name="memberName" id="memberName" placeholder="The members's name">
+                   <button type="submit" class="btn btn-primary btn-md">Search</button>
+                </div>
+
+            </fieldset>
+            {{ csrf.field | raw }}
+        </form>
+        <br>
+
+ 
+
+{% endblock %}

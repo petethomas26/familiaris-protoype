@@ -1,0 +1,76 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+
+  <div class="jumbotron" id="overview">
+    <h1 class="display-3 text-white mb-0">Further Information</h1>
+    <p class="display-6 text-white float-right mt-4">Woburn</p>
+  </div>
+  
+  <div class="container-fluid text-center">    
+    <div class="row content">
+      <div class="col-sm-2 sidenav lower text-sm-left">
+        <p><a href="{{ path_for('auth.signup')}}">Sign up</a></p>
+        <p><a href="{{ path_for('members') }}">Find Members</a></p>
+      </div>
+      <div class="col-sm-8 text-left"> 
+          
+          <h3>What is Familiaris?</h3>
+          <p>
+          Familiaris is a family tree maintenance system in which members of the family add new family members (both past and present) to the tree (also known as the knowledgebase) and maintain the information about members already on the tree. The aim is to collect as much information about individual members as possible, either from the individuals themselves or from the knowledge of other family members.
+          </p>
+          <h3>How to become a member of Familiaris?</h3>
+          <p>
+          To be able to view or amend the family tree you must be a member of our family. Existing members of our family can invite other family members to join Familiaris by sending them an invitation code. To obtain an invitation code contact a member of our family. The invitation code will enable you to register for Familiaris and then login to view and amend the family tree.
+          </p>
+          <h3>What does Familiaris enable you to do?</h3>
+          <p>
+          The Familiaris website has facilities for adding new people, both past and present, to the family tree. Members of Familiaris can amend any of the data contained in the tree. It is up to members to maintain the data so that it is as accurate as possible.
+          </p>
+          <p>
+          Of course, human memory is notoriously unreliable so it is expected that remembered 'facts' may be inaccurate. Therefore, no data added to the tree is thrown away and it is possible to track how information has been amended. Furthermore, members can agree with existing data if they believe the data to be correct.
+          </p>
+          <h3>Privacy of data</h3>
+          <p>
+          As a member of Familiaris data about you will be in our knowledge base. You have control over who can view this data (no-one, a selected group or everyone) and which elements of your data are visible to others. 
+          Data about your children is under your control: you specify who can see which data (there is a assumption that both parents or legal guardians can see all data about their children). Once a child becomes 16 they take responsibility for their own data (parents/guardians can hand over this responsibility at an earlier age if they so wish). At present, both parents/guardians, if they are both members, must agree on permissions and responsibility regarding their children (it may be the case that the parents/guardians agree that only one of them takes responsibity for the privacy of their children's data). 
+          <p>
+            See also: <span><a href='#DinP'>Death in Paradise</a></span>
+          </p>
+          </p>
+          <h3>Searching the family tree</h3>
+          <p>
+          Before you can view or amend information you must first search the tree to find the individual whose data you want to update. Finding the correct person on a family tree can be problematic especially if you do not have sufficient informatin to identify the person uniquely. Therefore, the Familiaris search mechanism will return all members on the tree whose details match your search criteria. You will then be able to view summary data about all members returned by the search to find the one that you want. Once you have identified a specific person you will be able to view and edit the details of that person (subject to privacy constraints: see <span><a href="#DinP">Death in Paradise</a></span>).
+          </p>
+          <h3>Adding new people to the family tree</h3>
+          <p>
+          Different branches of a family tree may know an individual by a nickname or married name which differ from the names by which they are known by other branches of the family. Therefore, it can happen that the same individual occurs more than once in the tree. 
+          </p>
+          <p>
+          Consequently, it is essential that when adding new individuals to the family tree, care is taken to ensure that the individual does not already exist in the tree. Whenever an attempt is made to add new individual to the family tree the system will check to see whether there are people on the tree with similar attributes before creating a new entry on the tree.
+          </p>
+          <p>
+          Should you think that two, or more, entries on the family tree correspond to the same individual, you can note the fact and if sufficient people agree with you, the records will be adjusted so that it appears that there is a single individual.
+          </p>
+          <h3 id="DinP">Death in Paradise</h3>
+          <p>
+          Clearly, if a member dies a decision has to be taken about the visibility of their data and what happens in regard to data about their children. However, care needs to be taken to avoid the situation where a member is declared to have died (whether accidentally or deliberately) but is still in fact alive. The veracity of such data is essential.
+          </p>
+          <p>
+          Therefore, to change a member's status from living to deceased will not be allowed unless there is sufficient corroboration (a minimum of three different members have to agree that a member has died) or sufficient time has elapsed since birth (anyone over the age of 110 will automatically be deemed to have died).
+          </p>
+
+      </div>
+      <div class="col-sm-2 sidenav">
+        <div class="well">
+          <p>Page updated March 2017.</p>
+        </div>
+        <div class="well">
+          <p>Update by PGT.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   
+{% endblock %}

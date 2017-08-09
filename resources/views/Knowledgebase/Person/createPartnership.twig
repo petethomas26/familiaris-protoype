@@ -1,0 +1,167 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Create new partnership
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+  					<form method="post" action="{{ path_for('postAddPartnership', {'personId': personId}) }}" autocomplete="off">
+
+  						<div class="form-group{{ blah.marriageDate ? ' has-warning' : '' }} row">
+			            <label for="marriageDate" class="col-sm-5 form-control-label">Partnership start date<span style="color:red">*</span>:</label>
+				            <div class="col-sm-5">
+				            	<input type="text" class="form-control{{ blah.marriageDate ? ' form-control-warning' : ''}} form-control-sm" id="marriageDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="marriageDate" value="{{ old.marriageDate }}" required>
+				            	<div class="form-control-feedback">{{ blah.marriageDate ? blah.marriageDate | first : ''}}</div>
+			            	</div>
+			            	<div>
+				            	<a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Unsure of date?" data-placement="top" data-content="If unsure of date, enter your best guess.">?</a>
+				            </div>
+			        	</div>
+
+						<div class="form-group{{ blah.divorceDate ? ' has-warning' : '' }} row">
+				            <label for="divorceDate" class="col-sm-5 form-control-label">Partnership end date<span style="color:red">*</span>:</label>
+				            <div class="col-sm-5">
+					            <input type="text" class="form-control{{ blah.divorceDate ? ' form-control-warning' : ''}} form-control-sm" id="divorceDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="divorceDate" value="{{ old.divorceDate }}">
+					            <div class="form-control-feedback">{{ blah.divorceDate ? blah.divorceDate | first : ''}}</div>
+				            </div>
+				            <div>
+				            	<a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Unsure of date?" data-placement="top" data-content="If unsure of date, enter your best guess.">?</a>
+				            </div>
+				        </div>
+
+				        <div class="form-group ">
+				        	
+				            <label for="private" class="custom-control custom-checkbox">
+				            <span class="custom-control-description">Keep private?</span>
+					            <input type="checkbox" class="col-sm-1 custom-control-input" id="private" autocomplete="off" name="private" checked>
+
+								<span class="custom-control-indicator"></span>
+								
+							</label>
+			  					
+				            
+				            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+						</div>
+			            
+
+  						<p><em>Specify partner by choosing from remembered list or giving personal details.</em></p>
+
+  						<div class="form-group row">
+							<label class="col-sm-1 mr-0 pr-0 ml-3 custom-control custom-radio">
+									<input id="partnershipNoRadio" name="radioInputType" type="radio" class="custom-control-input" value="select" checked>
+									<span class="custom-control-indicator"></span>
+							</label>
+							
+							<label for="partnershipPartnerName" class="col-sm-3 form-control-label float-left pr-0">Choose partner:</label>
+							<div class="col-sm-7">
+								 <select class="form-control{{ blah.partnerName ? ' form-control-warning' : ''}} form-control-sm" id="partnershipPartnerName"  name="partnerName"  value="{{ old.partnerName }}">
+									 {% for favouriteName in favouriteNames %}
+										<option value="{{favouriteName.personId}}~{{favouriteName.name}}" {{ (old.partnerName == (favouriteName.personId+'~'+favouriteName.name)) ? ' selected ' : '' }} >{{favouriteName.name}}</option>
+									 {% endfor %}
+									  <div class="form-control-feedback">{{ blah.partnerName ? blah.partnerName | first : ''}}</div>
+								 </select>
+								
+							</div>		
+	  					</div>
+
+	  					<p><em>or</em></p>
+
+	  					<div class="form-group row">
+							<label class="col-sm-1 mr-0 pr-0 ml-3 custom-control custom-radio">
+								<input id="partnershipNameRadio" name="radioInputType" type="radio" class="custom-control-input" value="form">
+								<span class="custom-control-indicator"></span>
+							</label>
+						
+							<label class="col-sm-6 ">Partner's details (<span style="color:red">*</span> = required):</label>
+	  					</div>
+	  						
+
+						<div class="form-group {{ blah.firstName ? ' has-warning' : '' }} row">
+							<label class="col-sm-1"></label>
+				            <label for="partnerFirstName" class="col-sm-3 form-control-label">First name<span style="color:red">*</span>: </label>
+				            <div class="col-sm-8">
+					            <input type="text" class="form-control{{ blah.firstName ? ' form-control-warning' : ''}} form-control-sm" id="partnerFirstName" name="firstName"  value="{{ old.firstName }}" required disabled>
+					           
+					            <div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}</div>
+				            </div>
+				         </div>
+
+
+				         <div class="form-group{{ blah.middleName ? ' has-warning' : '' }} row">
+				         	<label class="col-sm-1"></label>
+				            <label for="partnerMiddleName" class="col-sm-3 form-control-label">Middle name: </label>
+				            <div class="col-sm-8">
+					            <input type="text" class="form-control{{ blah.middleName ? ' form-control-warning' : ''}} form-control-sm" id="partnerMiddleName" name="middleName"  value="{{ old.middleName }}" disabled>
+					            <div class="form-control-feedback">{{ blah.middleName ? blah.middleName | first : ''}}</div>
+							</div>
+				         </div>
+
+				         <div class="form-group{{ blah.lastName ? ' has-warning' : '' }} row">
+				         	<label class="col-sm-1"></label>
+				            <label for="partnerLastName" class="col-sm-3 form-control-label">Last name<span style="color:red">*</span>:</label>
+				            <div class="col-sm-8">
+					            <input type="text" class="form-control{{ blah.lastName ? ' form-control-warning' : ''}} form-control-sm" id="partnerLastName" name="lastName" value="{{ old.lastName }}" disabled>
+					            </div>
+				            <div class="form-control-feedback">{{ blah.lastName ? blah.lastName | first : ''}}</div>
+				         </div>
+
+
+						<div class="form-group{{ blah.partnerGender ? ' has-warning' : '' }} row">
+							<label class="col-sm-1"></label>
+			              	<label for="partnerGender" class="col-sm-3 form-control-label">Gender:</label>
+			             	 <div class="col-sm-4">
+							      <select class="form-control{{ blah.partnerGender ? ' form-control-warning' : ''}} form-control-sm" id="partnerGender"  name="gender"  value="{{ old.partnerGender }}" disabled>
+							        <option>Unknown</option>
+							        <option>Male</option>
+							        <option>Female</option>
+							        <option>Other</option>
+							      </select>
+						      <div class="form-control-feedback">{{ blah.partnerGender ? blah.partnerGender | first : ''}}</div>
+						  </div>
+						</div>
+
+
+				        <div class="form-group{{ blah.dateOfBirth ? ' has-warning' : '' }} row"  >
+				        	<label class="col-sm-1"></label>
+				            <label for="partnerDateOfBirth" class="col-sm-3 form-control-label">Date of birth<span style="color:red">*</span>:</label>
+				            <div class="col-sm-4">
+					            <input type="text" class="form-control{{ blah.dateOfBirth ? ' form-control-warning' : ''}} form-control-sm " id="partnerDateOfBirth" data-provide="datepicker"  data-date-format="dd/mm/yyyy" name="dateOfBirth"  value="{{ old.dateOfBirth }}" disabled>
+					            <div class="form-control-feedback">{{ blah.dateOfBirth ? blah.dateOfBirth | first : ''}}</div>
+				            </div>
+				            <div>
+				            	<a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Unsure of date?" data-placement="top" data-content="If unsure of date, enter your best guess. The system will find the best match.">?</a>
+				            </div>
+				        </div>
+
+				        <div class="form-group{{ blah.placeOfBirth ? ' has-warning' : '' }} row">
+				        	<label class="col-sm-1"></label>
+				            <label for="partnerPlaceOfBirth" class="col-sm-3 form-control-label">Place of birth:</label>
+				            <div class="col-sm-6">
+					            <input type="text" class="form-control{{ blah.placeOfBirth ? ' form-control-warning' : ''}} form-control-sm" id="partnerPlaceOfBirth" name="placeOfBirth" value="{{ old.placeOfBirth }}" disabled>
+					            <div class="form-control-feedback">{{ blah.placeOfBirth ? blah.placeOfBirth | first : ''}}</div>
+				            </div>
+				        </div>
+							    
+
+					<div class="form-group inline">
+						<button  type="submit" class="btn btn-primary" id="partnershipSubmit">Create</button>
+						<a type="button" class="btn btn-primary" id="partnershipClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+						
+					</div>
+								
+			          {{ csrf.field | raw }}
+			        </form>
+				    
+				 </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

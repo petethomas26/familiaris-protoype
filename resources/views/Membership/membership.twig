@@ -1,0 +1,101 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="jumbotron" id="membership">
+  <h1 class="display-3 text-white mb-0">Membership</h1>
+  <p class="display-6 text-white float-right mt-4">Hampton Court</p>
+</div>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower text-sm-left">
+      <p><a href="{{ path_for('auth.signup') }}">Sign Up</a></p>
+      <p><a href="{{ path_for('members') }}">Find Members</a></p>
+      <p><a href="{{ path_for('invite') }}">Invite</a></p>
+      <p><a href="{{ path_for('sendMessage', [], {'email' : ''}) }}">Send message</a></p>
+      <p><a href="{{ path_for('notice') }}">Post notice</a></p>
+      <p><a href="{{ path_for('getOpinion') }}">Opinionaire</a></p>
+      <p><a href="{{ path_for('getMyMembership') }}">My Membership</a></p>
+    </div>
+    <div class="col-sm-8 text-left"> 
+        <p>Members of Familiaris are able to view and edit details of people on our family tree. Normally, members are also on the family tree.</p>
+        <hr>
+        <h4>How do I become a member of Familiaris?</h4>
+        <p>Membership of Familiaris is by invitation from existing members. You should contact an existing member to obtain an invitation. You will then be able to register and become a member.</p>
+        <p>If you already have an invitation, click the button below.</p>
+        <a class="btn btn-primary btn-md" href="{{ path_for('auth.signup') }}" role="button">Sign up</a>
+        <p>Once you are a member you can login to view and edit our family tree.</p>
+
+        <hr>
+
+        <h4>Am I on the family tree?</h4>
+        <p>Enter your details: all fields are required.</p>
+
+        <form action="{{ path_for('isperson') }}" method="post">
+              <fieldset class="form-group {{ blah.firstName ? ' has-warning' : '' }}">
+                    <label class="form-control-label" for="firstName">First name</label>
+                    <input type="text" class="form-control {{ blah.firstName ? ' form-control-warning' : ''}} form-control-sm" id="fistName" name="firstName" placeholder="Your fist name" value="{{ old.firstName }}">
+                    <div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}
+                    </div>
+              </fieldset>
+              <fieldset class="form-group {{ blah.lastName ? ' has-warning' : '' }}">
+                    <label class="form-control-label" for="lastName">Last Name</label>
+                    <input type="text" class="form-control {{ blah.lastName ? ' form-control-warning' : ''}} form-control-sm" id="lastName" name="lastName" placeholder="Your last name" value="{{ old.lastName }}">
+                    <div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}
+                    </div>
+              </fieldset>
+              <fieldset class="form-group {{ blah.dob ? ' has-warning' : '' }}">
+                    <label class="form-control-label" for="dob">Date of Birth</label>
+                    <input type="date" class="form-control {{ blah.dob ? ' form-control-warning' : ''}} form-control-sm" id="dob" name="dob" placeholder="day" value="{{ old.dob }}">
+                    <div class="form-control-feedback">{{ blah.dob ? blah.dob | first : ''}}
+                    </div>
+              </fieldset>
+            
+             <button type="submit" class="btn btn-primary btn-md">Search</button>
+             {{ csrf.field | raw }}
+        </form>
+        <hr>
+
+        <h4>Who are members of the Familiaris family?</h4>
+        <p>You can obtain brief details of everyone on the current family tree by clicking here:</p>
+
+        <a class="btn btn-primary btn-md" href="{{ path_for('members') }}" role="button">Find Members</a>
+        
+        <hr>
+
+        <h4>How do I invite someone to join Familiaris?</h4>
+        <p>You can invite someone by clicking here:</p>
+
+        <a class="btn btn-primary btn-md" href="{{ path_for('invite') }}" role="button">Invite</a>
+
+        <hr>
+
+        <h4>How do I communicate with other Members?</h4>
+        <p>You can communicate with other members in one of two ways. Either by issuing a notice which will be seen by all members or by sending an email to a selected group of one or more members.</p>
+
+        <a class="btn btn-primary btn-md" href="{{ path_for('postNotice') }}" role="button">Post Notice</a>
+        <a class="btn btn-primary btn-md" href="{{ path_for('sendMessage') }}" role="button">Send Email</a>
+        
+    </div>
+
+    <div class="col-sm-2 sidenav lower">
+      <a class="btn btn-success btn-sm btn-block" href="{{ path_for('notices', {'set':'0', 'no':'0', 'page':'membership'}) }}" role="button" data-toggle="tooltip" data-placement="top" title="Only the last 10 notices are shown. Click here to see all notices">Notices</a>
+
+      {% for notice in notices|reverse %}
+
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100">
+            <h6 class="mb-1">{{ notice.heading }}</h6>
+          </div>
+          <small class="mb-1 pl-0 ml-0 text-left">{{ notice.notice}}</small>
+          <small class="d-flex w-100 mb-1">{{ notice.created_at.toFormattedDateString() }}</small>
+        </div>
+
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

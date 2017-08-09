@@ -1,0 +1,55 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row lower">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Update partnership dates
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+
+			        <form method="post" action="{{ path_for('postUpdatePartnership', {'personId' : personId, 'partnershipId' : partnership.id}) }}" autocomplete="off">
+
+			            <div class="form-group">
+				            <label for="partnerName" class="form-control-label">Partner's name:</label>
+				            <input type="text" class="form-control form-control-sm" id="partnerName" name="partnerName" value="{{partnerName}}" disabled>
+			            </div>
+			            
+			            <div class="form-group {{ blah.marriageDate ? ' has-warning' : '' }}">
+				            <label for="marriageDate" class="form-control-label">Marriage Date:</label>
+				            <input type="text" class="form-control {{ blah.marriageDate ? ' form-control-warning' : ''}} form-control-sm" id="partnerMarriageDate" data-provide="datepicker"  data-date-orientation="top left" data-date-startview="year" data-date-autoclose="true" data-date-format="dd/mm/yyyy" name="marriageDate" value="{{ blah.marriageDate ? blah.marriageDate | first : marriageDate}}">
+			            </div>
+
+			            <div class="form-group {{ blah.divorceDate ? ' has-warning' : '' }}">
+				            <label for="divorceDate" class="form-control-label">Divorce Date:</label>
+				            <input type="text" class="form-control {{ blah.divorceDate ? ' form-control-warning' : ''}}" id="partnerDivorceDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-orientation="top left" data-date-startview="year" data-date-autoclose="true" data-date-autoclose="true" name="divorceDate" value="{{ blah.divorceDate ? blah.divorceDate | first : divorceDate}}">
+			            </div>
+
+					    <div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="partnershipSubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="partnershipClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this partnership private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="Private" name="private" {% if private %} checked {% endif %}>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+			            	</div>
+					    </div>
+			          {{ csrf.field | raw }}
+			        </form>
+
+
+
+
+
+			      </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

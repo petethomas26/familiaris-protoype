@@ -1,0 +1,43 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+
+{% set person = people[0] %}
+
+
+{% set name = person.fullName() %}
+
+
+<h2>Ancestors ({{ gender }} line) of {{ name }}</h2>
+
+{% if people|length > 1 %}
+		<table class="table table-hover">
+		  	<thead>
+			    <tr>
+			      <th>Reference</th>
+			      <th>Name</th>
+			      <th>Dates</th>
+			      <th>Birth place</th>
+			    </tr>
+		  	</thead>
+		  	<tbody>
+				{% for person in people|slice(1, people|length) %}
+				    <tr>
+				    	<td>{{ person.id }}</td>
+				    	<td>{{ person.fullName() }}</td>
+				    	<td>{{ person.date_of_birth ~ ' : ' ~ person.date_of_death}}</td>
+				    	<td>{{ person.birth_location }}
+				    </tr>
+	  			{% endfor %}
+		   	</tbody>
+		</table>
+	{% else %}
+		<p>There are no {{ gender }} ancestors recorded for this person.</p>
+	{% endif %}
+
+</div>
+
+
+{% endblock %}

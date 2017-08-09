@@ -1,0 +1,75 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="jumbotron" id="myMembership">
+  <h1 class="display-3 text-white mb-0">My Membership</h1>
+  <p class="display-6 text-white float-right mt-4">Hawes</p>
+</div>
+  
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower text-sm-left">
+      <p><a href="{{ path_for('sendMessage', [], {'email' : ''}) }}">Send message</a></p>
+      <p><a href="{{ path_for('notice') }}">Post notice</a></p>
+    </div>
+    <div class="col-sm-8 text-left"> 
+        <p>Here are some useful actions for maintaining your membership.</p>
+        <hr>
+        <h4>Membership details</h4>
+        <table class="table table-bordered table-sm">
+          <thead>
+            <th>Detail</th>
+            <th>Value</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Member name</td>
+              <td>{{memberDetails.memberName}}</td>
+            </tr>
+            <tr>
+              <td>Member id</td>
+              <td>{{memberDetails.memberId}}</td>
+            </tr>
+            <tr>
+              <td>Person id</td>
+              <td>{{memberDetails.personId}}</td>
+            </tr>
+            <tr>
+              <td>Date joined</td>
+              <td>{{memberDetails.dateJoined}}</td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td>{{memberDetails.status}}</td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>{{ memberDetails.obscuredEmail|raw }} </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <h4>How do I change my password?</h4>
+        <p>You will need your current password to do this. Click the button below.</p>
+        <a class="btn btn-primary btn-md" href="{{ path_for('auth.password.change') }}" role="button">Change password</a>
+
+        <hr>
+        <h4>How do I change my email address?</h4>
+        <p>Click the button below.</p>
+        <a class="btn btn-primary btn-md" href="{{ path_for('auth.email.change') }}" role="button">Change email</a>
+        
+        <hr>
+        <h4>How do I allow my child to join Familiaris?</h4>
+        <p>Click the button below.</p>
+        <a class="btn btn-primary btn-md" href="{{ path_for('inviteChild') }}" role="button">Allow child to sign up</a>
+        <hr>
+        <h4>How do I contact an administrator?</h4>
+        <p>Click the button below.</p>
+        <a class="btn btn-primary btn-md" href="{{ path_for('contactAdmin') }}" role="button">Contact administrator</a>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

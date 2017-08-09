@@ -1,0 +1,57 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  	<div class="row content">
+    	<div class="col-sm-2 sidenav lower">
+
+    	</div>
+
+		<div class="col-md-6 col-md-offset-3">
+			<div class="card">
+				<div class="card-header display-7 pt-2 pb-2 pl-2 bg-success text-white">
+	   				Change email address
+	  			</div>
+  				<div class="card-block">
+				    <form action="{{ path_for('auth.email.change') }}" method="post" autocomplete="off">
+
+				    	<div class="form-group{{ blah.oldEmail ? ' has-warning' : '' }} row">
+				    		<label class="form-control-label col-4" for="oldEmail" data-toggle="tooltip" data-placement="top" title="Your current email address.">Current email</label>
+				    		<div class="col-7">
+								<input type="email" name="oldEmail" id="oldEmail"  placeholder="old_you@domain.com"value="{{ old.oldEmail }}" class="form-control{{ blah.oldEmail ? ' form-control-warning' : ''}} form-control-sm">
+								<div class="form-control-feedback">{{ blah.oldEmail ? blah.oldEmail | first : ''}}
+								</div>
+							</div>
+				    	</div>
+				    	
+				    	<div class="form-group{{ blah.newEmail ? ' has-warning' : '' }} row">
+				    		<label class="form-control-label col-4" for="newEmail" data-toggle="tooltip" data-placement="top" title="Your new email address. This will be used in any future communication.">New email</label>
+				    		<div class="col-7">
+								<input type="email" name="newEmail" id="newEmail" placeholder="new_you@domain.com" value="{{ old.newEmail }}" class="form-control{{ blah.newEmail ? ' form-control-warning' : ''}} form-control-sm">
+								<div class="form-control-feedback">{{ blah.newEmail ? blah.newEmail | first : ''}}
+								</div>
+							</div>
+				    	</div>
+
+				    	<div class="form-group{{ blah.password ? ' has-warning' : '' }} row">
+				    		<label class="form-control-label col-4" for="password">Password</label>
+				    		<div class="col-7">
+								<input type="password" name="password" id="password" class="form-control{{ blah.password ? ' form-control-warning' : ''}} form-control-sm">
+								<div id="password-strength-text"></div>
+								<div class="form-control-feedback">{{ blah.password ? blah.password | first : ''}}
+								</div>
+							</div>
+				    	</div>
+
+						<button type="submit" class="btn btn-primary">Change email</button>
+						{{ csrf.field | raw }}
+				    </form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}

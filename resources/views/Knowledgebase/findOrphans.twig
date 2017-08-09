@@ -1,0 +1,30 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                Here is a list of unattached items found in the Database backup tables
+                <a type="button" class="close" href="{{ path_for('knowledgebase') }}" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </a>
+                
+            </div>
+
+                <div class="card-block">
+                	<ul>
+						{% for (orphan in orphans) %}
+							<li> {{orphan}} </li>
+						{% endfor %}
+					</ul>
+
+                </div>
+
+        </div>
+
+    </div>
+
+</div>

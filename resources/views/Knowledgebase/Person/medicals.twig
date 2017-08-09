@@ -1,0 +1,66 @@
+<div class="card">
+	<div class="card-header" role="tab" id="headingThree">
+	  <h5 class="mb-0">
+	    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+	      Medical history
+	    </a>
+	  </h5>
+	</div>
+	<div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+	  <div class="card-block">
+	  	<div class="inline">
+		    <h6>Significant medical and surgical events with dates. Includes preventative actions such as inoculations/vaccinations.</h6>
+		    
+			<a class="btn btn-primary btn-sm" id="addMedical" role="button" href="{{ path_for('addMedical', {'personId' : person.id }) }}">Add Medical</a>
+		</div>
+
+		  {% if personDetails.medicals is empty %}
+		 	 <span><em>None known</em></span>
+          {% else %}
+			  <table class="table table-striped table-sm .table-responsive">
+		    	<thead>
+		    		<tr>
+						<th>id</th>
+		    			<th>Condition</th>
+		    			<th>Year</th>
+		    			<th>Treatment</th>
+						<th>Amend</th>
+		    			<th>Drop</th>
+		    			{% if person.id == myPersonId %}
+		    			<th>Private</th>
+		    			{% endif %}
+						
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+		    		
+          				{% for medical in personDetails.medicals %}
+				    		<tr>
+								<td>{{medical.category.id}}</td>
+		    					<td>{{medical.category.condition}}</td>
+								<td>{{medical.category.year}}</td>
+								<td>{{medical.category.treatment}}</td>
+								<td>
+									<a class="btn btn-primary btn-sm" id="updateMedical" role="button" href="{{ path_for('updateMedical', {'personId' : person.id, 'medicalId' : medical.category.id}) }}"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title="Amend"></i></a>
+								</td>
+								<td>
+									<a class="btn btn-primary btn-sm" id="deleteMedical" role="button" href="{{ path_for('deleteMedical', {'personId' : person.id, 'medicalId' : medical.category.id }) }}"><i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+								</td>
+								<td>
+									{% if person.id == myPersonId %}
+										<label class="custom-control custom-checkbox">
+											{% set check = (medical.private) ? "checked" : "" %}
+												<input id="privateMedical" name="privateMedical" type="checkbox" class="custom-control-input" {{check}} onclick="window.location = '{{ path_for("updatePrivateMedical", {"personId": person.id, "medicalLinkId": medical.medicalLinkId}) }}'">
+				  							<span class="custom-control-indicator"></span>
+				  							<span class="custom-control-description">private</span>
+										</label>
+									{% endif %}
+								</td>
+				    		</tr>
+			    		{% endfor %}
+		    	</tbody>
+		    </table>
+		 {% endif %}
+	  </div>
+	</div>
+</div>

@@ -1,0 +1,116 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+       
+        <div class="card">
+            <div class="card-header bg-primary text-white text-center">
+                Enter details of the person you want to view
+                <a type="button" class="close" href="{{ path_for('knowledgebase') }}" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </a>
+                
+            </div>
+
+                <div class="card-block">
+                     
+                    <p><em>Choose person from your remembered list or enter their details.</em></p>
+
+                    <div class="form-group row">
+
+                        <label class="col-sm-1 mr-0 pr-0 ml-3 custom-control custom-radio">
+                                <input id="personChooseRadio" name="radioInputType" type="radio" class="custom-control-input" value="select" checked>
+                                <span class="custom-control-indicator"></span>
+                        </label>
+                        
+                        <div class="col-10">
+
+                                <form action="{{ path_for('getPersonId') }}" method="post" autocomplete="off">
+                                    <fieldset id="personChoose">
+                                        <div class="form-group row {{ blah.personName ? ' has-warning' : '' }}">
+                                            <label for="personName" class="col-form-label">Choose person:</label>
+                                            <div class="col-sm-8">
+                                         
+                                             <select class="form-control form-control-sm {{ blah.personName ? ' form-control-warning' : ''}}" id="personName"  name="personName"  value="{{ old.personName }}">
+                                           
+                                                 {% for favouriteName in favouriteNames %}
+                                                 
+                                                    <option value="{{favouriteName.personId}}~{{favouriteName.name}}" {{ (old.personName == (favouriteName.personId+'~'+favouriteName.name)) ? ' selected ' : '' }} >{{favouriteName.name}}</option>
+
+                                                 {% endfor %}
+                                                  <div class="form-control-feedback">{{ blah.personName ? blah.personName | first : ''}}</div>
+                                             </select>
+                                             </div>
+                                        
+                                            <button type="submit" class=" btn btn-primary btn-sm float-sm-right">Go</button>
+                                            
+                                        </div>
+                                    </fieldset>
+                                    {{ csrf.field | raw }}
+                                </form>
+                            
+                        </div>
+                    </div>
+                    
+                    <p><b>Or</b></p>
+
+                    <div class="form-group row">
+                        <label class="col-sm-1 mr-0 pr-0 ml-3 custom-control custom-radio">
+                            <input id="personDetailsRadio" name="radioInputType" type="radio" class="custom-control-input" value="form">
+                            <span class="custom-control-indicator"></span>
+                        </label>
+                    
+                        <label class="col-sm-6 ">Person's details (<span style="color:red">*</span> = required):</label>
+                    </div>
+
+                         
+                  
+                    <form action="{{ path_for('postFindPerson') }}" method="post" autocomplete="off">
+
+                        <fieldset id="personDetails" disabled>
+                            <div class="form-group row {{ blah.firstName ? ' has-warning' : '' }}">
+                                <label for="firstName" class="col-sm-3  col-form-label ml-1">First name<span style="color:red">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control {{ blah.firstName ? ' form-control-warning' : ''}}" name="firstName" id="firstName" value="{{ old.firstName }}" placeholder="The person's first name or nickname" required>
+                                    <div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row {{ blah.lastName ? ' has-warning' : '' }}">
+                                <label for="lastName" class="col-sm-3  col-form-label ml-1">Last Name<span style="color:red">*</span></label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control {{ blah.lastName ? ' form-control-warning' : ''}}" name="lastName" id="lastName" value="{{ old.lastName }}" placeholder="The person's last name" required>
+                                    <div class="form-control-feedback">{{ blah.lastName ? blah.lastName | first : ''}}</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row {{ blah.yearOfBirth ? ' has-warning' : '' }}">
+                                <label for="yob" class="col-sm-3  col-form-label ml-1">Year of Birth<span style="color:red">*</span></label>
+                                <div class="col-sm-8">
+                                 <input type="text" class="form-control {{ blah.yearOfBirth ? ' form-control-warning' : ''}}" name="yearOfBirth" id="yob" value="{{ old.yearOfBirth }}" placeholder="(Approximate) year of birth (yyyy)" required>
+                                 <div class="form-control-feedback">{{ blah.yearOfBirth ? blah.yearOfBirth | first : ''}}</div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row {{ blah.placeOfBirth ? ' has-warning' : '' }}">
+                                <label for="pob" class="col-sm-3  col-form-label ml-1">Place of Birth</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control {{ blah.placeOfBirth ? ' form-control-warning' : ''}}" name="placeOfBirth" id="pob" value="{{ old.placeOfBirth }}">
+                                    <div class="form-control-feedback">{{ blah.placeOfBirth ? blah.placeOfBirth | first : ''}}</div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-sm float-sm-right">Search</button>
+                        </fieldset>
+                        {{ csrf.field | raw }}
+                    </form>
+                    <br>
+                </div>
+                
+            </div>
+        </div>
+</div>
+{% endblock %}

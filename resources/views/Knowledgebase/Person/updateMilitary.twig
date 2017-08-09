@@ -1,0 +1,79 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row lower">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Update military service details
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+
+			        <form method="post" action="{{ path_for('postUpdateMilitary', {'personId' : personId, 'militaryId' : military.id}) }}" autocomplete="off">
+
+			            <div class="form-group {{ blah.branch ? ' has-warning' : '' }}">
+				            <label for="militaryBranch" class="form-control-label">Branch:</label>
+				            <input type="text" class="form-control{{ blah.branch ? ' form-control-warning' : ''}} form-control-sm" id="militaryBranch" name="branch" value="{{ blah.branch ? blah.branch | first : military.branch }}" >
+				            <div class="form-control-feedback">{{ blah.branch ? blah.branch | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.group ? ' has-warning' : '' }}">
+				            <label for="militaryGroup" class="form-control-label">Group:</label>
+				            <input type="text" class="form-control{{ blah.group ? ' form-control-warning' : ''}} form-control-sm" id="militaryGroup" name="group" value="{{ blah.year ? blah.group | first : military.group }}">
+				            <div class="form-control-feedback">{{ blah.group ? blah.group | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.rank ? ' has-warning' : '' }}">
+				            <label for="militaryRank" class="form-control-label">Rank:</label>
+		            		<input type="text" class="form-control{{ blah.rank ? ' form-control-warning' : ''}} form-control-sm" id="militaryRank" name="rank" value="{{ blah.rank ? blah.rank | first : military.rank }}">
+		            		<div class="form-control-feedback">{{ blah.rank ? blah.rank | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.awards ? ' has-warning' : '' }}">
+				            <label for="militaryAwards" class="form-control-label">Awards:</label>
+		            		<input type="text" class="form-control{{ blah.awards ? ' form-control-warning' : ''}} form-control-sm" id="militaryAwards" name="awards" value="{{ blah.awards ? blah.awards | first : military.awards }}">
+		            		<div class="form-control-feedback">{{ blah.awards ? blah.awards | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.start_date ? ' has-warning' : '' }}">
+				            <label for="militaryStartDate" class="form-control-label">Start date:</label>
+		            		<input type="text" class="form-control{{ blah.start_date ? ' form-control-warning' : ''}} form-control-sm" id="militaryStartDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="start_date" value="{{ blah.start_date ? blah.start_date | first : military.start_date }}">
+		            		<div class="form-control-feedback">{{ blah.start_date ? blah.start_date | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.end_date ? ' has-warning' : '' }}">
+				            <label for="militaryEndDate" class="form-control-label">End date:</label>
+		            		<input type="text" class="form-control{{ blah.end_date ? ' form-control-warning' : ''}} form-control-sm" id="militaryEndDate" data-provide="datepicker"  data-date-format="dd/mm/yyyy" data-date-autoclose="true" data-date-end-date="today" name="end_date" value="{{ blah.end_date ? blah.end_date | first : military.end_date }}">
+		            		<div class="form-control-feedback">{{ blah.end_date ? blah.end_date | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.description ? ' has-warning' : '' }}">
+				            <label for="militaryDescription" class="form-control-label">Description:</label>
+		            		<input type="text" class="form-control{{ blah.description ? ' form-control-warning' : ''}} form-control-sm" id="militaryDescription" name="description" value="{{ blah.description ? blah.description | first : military.description }}">
+		            		<div class="form-control-feedback">{{ blah.description ? blah.description | first : ''}}</div>
+			            </div>
+
+
+			            <div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="militarySubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="militaryClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this military service private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="private" name="private" {% if private %} checked {% endif %}>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+			            	</div>
+					    </div>
+			           {{ csrf.field | raw }}
+			        </form>
+
+			      </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

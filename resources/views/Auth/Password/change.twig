@@ -1,0 +1,48 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  	<div class="row content">
+    	<div class="col-sm-2 sidenav lower">
+
+    	</div>
+
+		<div class="col-md-6 col-md-offset-3">
+			<div class="card">
+				<div class="card-header display-7 pt-2 pb-2 pl-2 bg-success text-white">
+	   				Change password
+	  			</div>
+  				<div class="card-block">
+				    <form action="{{ path_for('auth.password.change') }}" method="post" autocomplete="off">
+				    	
+				    	<div class="form-group{{ blah.password_old ? ' has-warning' : '' }} row">
+				    		<label class="form-control-label col-4" for="password_old" >Current Password</label>
+				    		<div class="col-7">
+								<input type="password" name="password_old" id="password_old" class="form-control{{ blah.password_old ? ' form-control-warning' : ''}} form-control-sm">
+								<div class="form-control-feedback">{{ blah.password_old ? blah.password_old | first : ''}}
+								</div>
+							</div>
+				    	</div>
+
+				    	<div class="form-group{{ blah.password ? ' has-warning' : '' }} row">
+				    		<label class="form-control-label col-4" for="password">New Password</label>
+				    		<div class="col-7">
+								<input type="password" name="password" id="password" class="form-control{{ blah.password ? ' form-control-warning' : ''}} form-control-sm">
+								<div class="form-control-feedback">{{ blah.password ? blah.password | first : ''}}
+								</div>
+					    	</div>
+					    </div>
+				    	
+						<button type="submit" class="btn btn-primary">Change password</button>
+
+						{{ csrf.field | raw }}
+				    </form>
+				    
+				 </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row lower">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Update address details
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+
+			        <form method="post" action="{{ path_for('postUpdateAddress', {'personId' : personId, 'addressId' : address.id}) }}" autocomplete="off">
+
+			            <div class="form-group {{ blah.houseNo ? ' has-warning' : '' }}">
+				            <label for="domicileHouseNumber" class="form-control-label">House number:</label>
+				            <input type="text" class="form-control{{ blah.houseNo ? ' form-control-warning' : ''}} form-control-sm" id="domicileHouseNumber" name="houseNumber" value="{{ blah.houseNo ? blah.houseNo | first : address.houseNo_Name }}" >
+				            <div class="form-control-feedback">{{ blah.houseNo ? blah.houseNo | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.street ? ' has-warning' : '' }}">
+				            <label for="domicileStreet" class="form-control-label">Street:</label>
+				            <input type="text" class="form-control{{ blah.street ? ' form-control-warning' : ''}} form-control-sm" id="domicileAddress1" name="street" value="{{ blah.street ? blah.street | first : address.address_1 }}">
+				            <div class="form-control-feedback">{{ blah.street ? blah.street | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.address2 ? ' has-warning' : '' }}">
+				            <label for="domicileAddress2" class="form-control-label">Address2:</label>
+		            		<input type="text" class="form-control{{ blah.address2 ? ' form-control-warning' : ''}} form-control-sm" id="domicileAddress2" name="address2" value="{{ blah.address2 ? blah.address2 | first : address.address_2 }}">
+		            		<div class="form-control-feedback">{{ blah.address2 ? blah.address2 | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.town ? ' has-warning' : '' }}">
+				            <label for="domicileTown" class="form-control-label">Town:</label>
+		            		<input type="text" class="form-control{{ blah.town ? ' form-control-warning' : ''}} form-control-sm" id="domicileTown" name="town" value="{{ blah.town ? blah.town | first : address.town }}">
+		            		<div class="form-control-feedback">{{ blah.town ? blah.town | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.postcode ? ' has-warning' : '' }}">
+				            <label for="domicilePostcode" class="form-control-label">Postcode:</label>
+		            		<input type="text" class="form-control{{ blah.postcode ? ' form-control-warning' : ''}} form-control-sm" id="domicilePostcode" name="postcode" value="{{ blah.postcode ? blah.postcode | first : address.postcode }}">
+		            		<div class="form-control-feedback">{{ blah.postcode ? blah.postcode | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.from_date ? ' has-warning' : '' }}">
+				            <label for="domicileFrom" class="form-control-label">From:</label>
+		            		<input type="text" class="form-control{{ blah.from_date ? ' form-control-warning' : ''}} form-control-sm" id="domicileFrom" name="fromDate" data-provide="datepicker"  data-date-orientation="top left" data-date-startview="year" data-date-autoclose="true" data-date-format="dd/mm/yyyy" value="{{ blah.from_date ? blah.from_date | first : fromDate }}">
+		            		<div class="form-control-feedback">{{ blah.from_date ? blah.from_date | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.toDate ? ' has-warning' : '' }}">
+				            <label for="domicileTo" class="form-control-label">To:</label>
+		            		<input type="text" class="form-control{{ blah.toDate ? ' form-control-warning' : ''}} form-control-sm" id="domicileTo" name="toDate" data-provide="datepicker"  data-date-orientation="top left" data-date-startview="year" data-date-autoclose="true" data-date-format="dd/mm/yyyy" value="{{ blah.to_date ? blah.to_date | first : toDate }}">
+		            		<div class="form-control-feedback">{{ blah.toDate ? blah.toDate | first : ''}}</div>
+			            </div>
+
+
+			            <div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="addressSubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="partnershipClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this partnership private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="private" name="private" {% if private %} checked {% endif %}>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+			            	</div>
+					    </div>
+			          {{ csrf.field | raw }}
+			        </form>
+
+			      </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

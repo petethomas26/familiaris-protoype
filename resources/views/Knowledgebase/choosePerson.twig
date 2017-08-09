@@ -1,0 +1,64 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+ 
+
+<!--List of all Members; to select one from-->
+ 
+<div class="row content">
+	<div class="col-md-9 col-md-offset-3 pb-2 bg-primary">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+   				Click one of the following people to view their details
+   				<a type="button" class="close" href="{{ path_for('knowledgebase') }}" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </a>
+		        
+  			</div>
+
+
+			<div class="card-block">
+
+				{% if people is not empty %}
+					<table class="table table-hover table-striped table-responsive">
+					  	<thead>
+						    <tr>
+						      <th>id</th>
+						      <th>First Name</th>
+						      <th>Nickname</th>
+						      <th>Last Name</th>
+						      <th>Gender</th>
+						      <th>Date of birth</th>
+						      <th>Place of birth</th>
+						      
+						    </tr>
+					  	</thead>
+					  	<tbody>
+							{% for person in people %}
+							    <tr onclick="window.location = '{{ path_for("person",  {"personId": person.id}) }}'">
+							      <td>{{ person.id }}</th>
+							      <td>{{ person.first_name }}</td>
+							      <td>{{ person.nickname }}</td>
+							      <td>{{ person.last_name }}</td>
+							      <td>{{ person.gender}}</td>
+							      <td>{{ person.date_of_birth|date("d/m/Y")}}</td>
+							      <td>{{ person.birth_location}}</td>
+							      
+							    </tr>
+				  			{% endfor %}
+					   	</tbody>
+					</table>
+				{% else %}
+					<p>No people</p>
+				{% endif %}
+			
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+
+{% endblock %}

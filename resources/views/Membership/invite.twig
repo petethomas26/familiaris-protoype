@@ -1,0 +1,72 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower">
+
+    </div>
+    <div class="col-sm-8 text-left"> 
+		<h2 class="bg-success display-7 pt-2 pb-2 pl-2 text-white">Invite someone to become a member.</h2>
+		<p>Enter the name and email address of the person you would like to invite to become a member of Familiaris. We will send them an email containing an invitation code that will enable them to sign up to Familiaris.</p>
+		<p><strong>Please, only invite someone if you believe they are:</strong></p>
+		<ul><strong>
+			<li> a member of our family, and</li>
+			<li> are 16 years of age or over.
+		</strong></ul>
+		<hr>
+		<form action="{{ path_for('invite') }}" method="post" autocomplete="off">
+	        <div class="form-group {{ blah.firstName ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="firstName">First name</label>
+	            <div class="col-6">
+		            <input type="text" class="form-control{{ blah.firstName ? ' form-control-warning' : ''}} " name="firstName" id="firstName" placeholder="The person's first name or nickname" value="{{ old.memberName }}">
+		            <div class="form-control-feedback">{{ blah.firstName ? blah.firstName | first : ''}}
+					</div>
+				</div>
+	        </div>
+
+	        <div class="form-group {{ blah.lastName ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="surname">Last Name</label>
+	            <div class="col-6">
+		            <input type="text" class="form-control{{ blah.lastName ? ' form-control-warning' : ''}} " name="lastName" id="lastName" placeholder="The person's last name" value="{{ old.lastName }}">
+		            <div class="form-control-feedback">{{ blah.lastName ? blah.lastName | first : ''}}
+					</div>
+				</div>
+	        </div>
+
+	        <div class="form-group {{ blah.email ? ' has-warning' : '' }} row">
+	            <label class="col-form-label col-3" for="email">Email address</label>
+	            <div class="col-6">
+		            <input type="email" class="form-control{{ blah.email ? ' form-control-warning' : ''}} " name="email" id="email" placeholder="name@domain.com" value="{{ old.email }}">
+		            <div class="form-control-feedback">{{ blah.email ? blah.email | first : ''}}
+					</div>
+				</div>
+	        </div>
+
+	         <div class="form-group {{ blah.confirm ? ' has-warning' : '' }} row">
+				<div class="float-right">
+		            <label class="btn" for="confirm" class="form-control-label"><strong>I confirm that this individual is 16 or over</strong>
+		            	<input type="checkbox"  class="{{ blah.confirm ? ' form-control-warning' : ''}}" id="confirm" autocomplete="off"  title="confirm" name="confirm" value="{{ old.confirm }}">
+		            	<br>
+		            	<em>[If you want your own child to become a member, go to My Membership and use Join Child]</em>
+		            	
+		            </label>
+		            <div class="form-control-feedback">{{ blah.confirm ? blah.confirm | first : ''}}</div>
+
+				</div>
+
+			</div>
+
+			<div>
+			
+			</div>
+
+	        <button type="submit" class="btn btn-primary btn-md">Invite</button>
+	        {{ csrf.field | raw }}
+	    </form>
+	</div>
+  </div>
+</div>
+
+{% endblock %}

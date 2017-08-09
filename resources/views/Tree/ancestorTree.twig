@@ -1,0 +1,36 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+
+	<h2>Ancestor Tree for {{ name}}</h2>
+	<hr>
+	
+	{% if tree|length > 1 %}
+		{% for generation in tree %}
+			<div class="row">
+			{% for person in generation %}
+				<div class="col">
+					{% set pId = person[0] %}
+					{% set pName = person[1] %}
+					{% if pName != '?' %} 
+						<a href="{{path_for('person', {'personId': pId})}}">{{pName}}</a>
+					{% else %}
+						{{'?'}}
+					{% endif %}
+				</div>
+			{% endfor %}
+			</div>
+			<br>
+		{% endfor %}
+
+	{% else %}
+
+		<p>No ancestors found</p>
+
+	{% endif %}
+
+</div>
+
+{% endblock %}

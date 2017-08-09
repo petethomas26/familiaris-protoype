@@ -1,0 +1,59 @@
+<div class="card">
+	<div class="card-header" role="tab" id="headingMemory">
+	  <h5 class="mb-0">
+	    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseMemory" aria-expanded="false" aria-controls="collapseMemory">
+	      Biographical memories
+	    </a>
+	  </h5>
+	</div>
+	<div id="collapseMemory" class="collapse" role="tabpanel" aria-labelledby="headingMemory">
+	  <div class="card-block">
+	  	<div class="inline">
+	    	<h6>Biographical memories</h6>
+
+			<a class="btn btn-primary btn-sm" id="addMemory" role="button" href="{{ path_for('addMemory', {'personId' : person.id }) }}">Add Memory</a>
+	   	</div>
+	   {% if personDetails.memories is empty %}
+			<span><em>None known</em></span>
+        {% else %}
+		   <table class="table table-striped table-sm .table-responsive">
+		    	<thead>
+		    		<tr>
+		    			<th>id</th>
+		    			<th>Date</th>
+		    			<th>Memory</th>
+		    			<th>Amend</th>
+		    			<th>Drop</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+    			
+	    			{% for memory in personDetails.memories %}
+	    				<tr>
+	    					<td>{{memory.category.id}}</td>
+							<td>{{memory.category.date}}</td>
+							<td>{{memory.category.memory}}</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="updateMemory" role="button" href="{{ path_for('updateMemory', {'personId' : person.id, 'memoryId' : memory.category.id}) }}"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title="Amend"></i></a>
+							</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="deleteMemory" role="button" href="{{ path_for('deleteMemory', {'personId' : person.id, 'memoryId' : memory.category.id }) }}"> <i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+							</td>
+							<td>
+								{% if person.id == myPersonId %}
+									<label class="custom-control custom-checkbox">
+										{% set check = (memory.private) ? "checked" : "" %}
+											<input id="privateMemory" name="privateMemory" type="checkbox" class="custom-control-input" {{check}} onclick="window.location = '{{ path_for("updatePrivateMemory", {"personId": person.id, "memoryLinkId": memory.memoryLinkId}) }}'">
+			  							<span class="custom-control-indicator"></span>
+			  							<span class="custom-control-description">private</span>
+									</label>
+								{% endif %}
+							</td>
+						</tr>
+	    			{% endfor %}
+	    		</tbody>
+	    	</table>
+	    {% endif %}
+	  </div>
+	</div>
+</div>

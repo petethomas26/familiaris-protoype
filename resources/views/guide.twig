@@ -1,0 +1,157 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+  
+  <div class="jumbotron" id="userGuide">
+    <h1 class="display-3 text-white mb-0">User Guide</h1>
+    <p class="display-6 text-white float-right mt-4">Canterbury</p>
+  </div>
+
+  <div class="container-fluid text-center">    
+    <div class="row content">
+      <div class="col-sm-2 sidenav lower text-sm-left">
+        <p><a href="{{ path_for('auth.signup')}}">Sign up</a></p>
+        <p><a href="{{ path_for('membership') }}">Find Members</a></p>
+        <p><a href="#examples">Examples</a></p>
+      </div>
+      <div class="col-sm-8 text-left"> 
+          
+          <h3>Introduction</h3>
+          <p>
+            Before starting to use the website it is useful to distinguish between members and people.
+          </p>
+          <p>
+          <ul>
+            <li>A <b>member</b> is anyone who has signed up to use the website and will be a living member of our family. 
+            <li>A <b>person</b> is someone, living or dead, about whom information is stored in the <b>knowledgebase</b>. We refer to the collection of data about a single person as a <b>record</b>. 
+          </ul>
+          <p>
+            The website has two major components: the membership page and the knowledgebase page. The <b>membership page</b> deals with signing up and signing in activities as well as communication between members. The <b>knowledgebase page</b> deals with viewing and maintaining the knowledgebase. 
+          </p>
+          <p>Normally, there will be a person record for each member. Once deceased, a member will no longer have a membership, but their person record will remain in the knowledgebase.
+          </p>
+          <h3>Interacting with the knowledgebase</h3>
+          <p>
+            The knowledgebase is a collection of person records in the form of a family tree with each individual connected to their parents and their children (where this information is known). As a member of the website you can amend the information contained in (almost) any person record and you can add new people to the knowledgebase. Normally, when you sign up to be a member you will be invited to create a person record containing information about yourself. However, it may be the case that a person record for you is already in the knowledgebase, added there by another member. In this case you will be invited to view your referencececord and, if you wish, add to it or amend whatever is already there.
+          </p>
+          <p>
+           When you interact with the knowledgebase, you will often want to view specific person records. This means asking the system to find the appropriate person record and display it for you. There are two ways to access a specific person record: by specifying a person's name and their date of birth or by inputting the person's reference number (if you happen to know it). 
+          </p>
+          <p>
+            Accessing a person record by inputting a name is useful when searching for someone for whom you do not have precise or detailed information. The system will search the knowledgebase for people who match, either exactly or approximately, the information you have supplied. If your data identifies more than a single person, you will be shown a list of all matching people from which you can select one to view.
+          </p>
+          <p>
+            Whenever a person record is displayed you will see their reference number at the top of the display. The reference number can be used to access the person on future occasions. To help you remember reference numbers, there is a facility, known as 'remembering' for you to record reference numbers along with names of people you want to remember. You can access your list of remembered people to help in retrieving their full person record.
+          </p>
+          <p>
+            The data in a person record is divided into two categories: identification data and personal details. If the person is living (and quite likely to be a member) you can view their identification data and those parts of their personal details that they have chosen to be public.  
+          </p>
+          <h3>Your personal data</h3>
+          <p>
+            As a member, you have control over the majority of data in your person record. The intention is that identification data (name, date of birth, parents, children etc) relates to the structure of the family tree and is public, viewable by other members. Personal details are considered private unless you choose to make them public. As a member, you can add personal details to your record and choose which details to make public.
+          </p>
+          <p>
+            A few years after your death, all your private data will become public. The idea is to make private data public only when it is safe to do so. That is, when it will not cause offense to other members. Therefore, a member will be able to state when private data becomes public but not indefinitely (otherwise, why record it in the first place?). Advice is currently being sought as to the rules that should apply in this area.
+          </p>
+          <h3>Other persons' data</h3>
+          <p>
+            Any person record that relates to a deceased family member is viewable and editable by any member. This is the mechanism by which we build up the family tree: members add new people to the knowledgebase and add to the knowledge about those people.
+          </p>
+          <p>
+            All data contained in a person record relating to a living person but who is not currently a member is deemed public and can be viewed and edited by any other member. 
+          </p>
+          <p>
+            When someone becomes a member they take control over their personal record (if one exists) and can choose to delete, amend or make private the data contained in it. At this point, other members cannot add or amend the data in that member's person record (though they can view the public data).
+          </p>
+          <h3>Children</h3>
+          <p> 
+            For privacy and security reasons, we distinguish between adults and children and we have chosen to define a child is anyone under the age of 16. Our current rules say that a child cannot be a member but there can be a person record for a child. A child's person record is controlled by its parents/guardians.
+          </p>
+          <h3>Actions</h3>
+          <p>
+            The table below describes some of the actions you can take when interacting with the knowledgebase.
+          </p>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Link</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Get my data</th>
+                <td>Displays your person record for viewing and editing.</td>
+              </tr>
+              <tr>
+                <th scope="row">Find person</th>
+                <td>Searches for a person based on data such as name and date of birth.
+              If found, displays the person's record ready for viewing and editing.</td>
+              </tr>
+              <tr>
+                <th scope="row">Add me to the knowledgebase</th>
+                <td>Creates a new person record about you.</td>
+              </tr>
+              <tr>
+                <th scope="row">Add new person</th>
+                <td>Creates a new person record about someone.
+              You can enter details about the person and link them to other people such as their parents or children.</td>
+              </tr>
+              <tr>
+                <th scope="row">Contact Administrator</th>
+                <td>Enables you to send an email message to an Administrator.</td>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3>Person records and the family tree</h3>
+          <p>Most often you will interact withthe knowledgebase by viewing, editing and creating individual person records.` From time to time you may wish to view (parts of) the family tree where you will see the relationships between people through the generations. Familiaris enables you to view the tree in a variety of ways: the tree of all ancestors of a particular person, the male or female line of ancestors of a particular person and the descendants of a particular person.
+          </p>
+          <p>
+          In typical use you will go to the Knowledgebase page to search for a person by specifying their name and birth date, which will display the person record ready for you to view and edit. Once at a specific person page you can choose to view the ancestors of that person. To see other versions of the family tree go to the Family Tree page.
+          </p>
+          
+          <h3 id="examples">Examples</h3>
+          <p>
+           In this section there are examples of how to use the website for common tasks. It assumes that you have signed in and are viewing the home page. Your first action is to use the main menu across the top of the home page to choose the most appropriate page for the task.
+          </p>
+          <h5>A. View the information about a particular person</h5>
+          <p>
+            <ol>
+              <li> Go to the Knowledgebase page. </li>
+              <li> Use the menu on the left hand column and click on either 'Get my details' to view the information about yourself or click on 'Find person' to search for a specific person.</li>
+              <li> If you have clicked on 'Find person' a form will appear into which you can enter the name of the person and their date of birth (needed to distinguish between different people with the same name).</li>
+              <li> If the search is successful the details for the person found will appear for you to view. If the search finds multiple people matching your search criteria they will be listed and you can choose one to view.</li>
+            </ol>
+          </p>
+          <h5>B. Edit the information about a particular person</h5>
+          <p>
+            <ol>
+              <li> Go to the Knowledgebase page. </li>
+              <li> Click on 'Find person' to find the record for the required person; follow the instructions in Example A to obtain the required person.</li>
+              <li> A person record is displayed on a single page having four main sections:
+                <ol>
+                  <li>Top-left: an area for displaying a photo of the person with buttons that enable you to add to a gallery of photos and to display all photos. You can choose the photo from the gallery that you wish to be displayed on the person page.
+                  <li>Top-right: data that identifies the person including names, data of birth and place of birth. All identification fields can be edited once the @Enable Editing' button has been pressed. It is possible for an inndividual to have (or have had) several nicknames and last names, and clicking on a 'More' button will display a list of all known nicknames/last names. You can add to or edit the list. One identification field shows the individuals 'status': alive or dead (there are restrictions on what you can do to alter the details of someone who is alive).
+                  <li>Below the photo area: relationship data showing the person's parents, siblings and partner (if any). The names are clickable so that you can move quickly to the pages for these people.
+                  </li>
+                  <li>The bottom area: a list of categories of information about the person (e.g. their partnership(s), where they have lived, education, medical history and much more). Click on one of the category heading to view the data. It is possible to add new items to each category and to edit the existing items.
+                  </li>
+                </ol>
+              </li>
+              <li> If the search is successful the details for the person found will appear for you to view. If the search finds multiple people matching your search criteria they will be listed and you can choose one to view.</li>
+            </ol>
+          </p>
+          <h5>C. Quickly access a specific person record</h5>
+          <p>
+          There is a mechanism for helping you to access a particular person's record called 'remembering'. Having accessed a person's page you can click on the memu item 'Remember person' and the system will save a reference to this person. Thereafter, when you want to access a person record the system will present you with a list of your remembered people from which you can choose one to be displayed thereby avoiding having to type in that person's names and date of birth and perform a search.
+          </p>
+          <p>
+          There is a menu item for deleting the currently displayed person from the list of remembered people and one for displaying the list of remembered people.
+          </p>
+      </div>
+     </div>
+  </div>
+
+{% endblock %} 

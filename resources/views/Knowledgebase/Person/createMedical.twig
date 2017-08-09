@@ -1,0 +1,54 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Create new medical
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+			{		<form method="post" action="{{ path_for('postAddMedical', {'personId': personId}) }}" autocomplete="off">
+
+			            <div class="form-group {{ blah.condition ? ' has-warning' : '' }}">
+				            <label for="medicalCondition" class="form-control-label">Condition:</label>
+				            <input type="text" class="form-control{{ blah.condition ? ' form-control-warning' : ''}} form-control-sm" id="medicalCondition" name="condition" value="{{ old.condition }}">
+				            <div class="form-control-feedback">{{ blah.condition ? blah.condition | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.year ? ' has-warning' : '' }}">
+				            <label for="medicalYear" class="form-control-label">Year:</label>
+				            <input type="text" class="form-control{{ blah.year ? ' form-control-warning' : ''}} form-control-sm" id="medicalYear" name="year" value="{{ old.year }}">
+				            <div class="form-control-feedback">{{ blah.year ? blah.year | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.treatment ? ' has-warning' : '' }}">
+				            <label for="medicalTreatment" class="form-control-label">Treatment:</label>
+		            		<input type="text" class="form-control{{ blah.treatment ? ' form-control-warning' : ''}} form-control-sm" id="medicalTreatment" name="treatment" value="{{ old.treatment }}">
+		            		<div class="form-control-feedback">{{ blah.treatment ? blah.treatment | first : ''}}</div>
+			            </div>
+
+			    		<div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="medicalSubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="medicalClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this medical private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="private" name="private" checked>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+				            </div>
+					  	</div>
+			            {{ csrf.field | raw }}
+			        </form>
+
+			    </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+	   

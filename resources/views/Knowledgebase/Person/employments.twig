@@ -1,0 +1,66 @@
+<div class="card">
+	<div class="card-header" role="tab" id="headingFive">
+	  <h5 class="mb-0">
+	    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+    	Careers/Employment
+	    </a>
+	  </h5>
+	</div>
+	<div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+	  <div class="card-block">
+	  <div class="inline">
+	    <h6>Careers and employment</h6>
+	    <a class="btn btn-primary btn-sm" id="addEmployment" role="button" href="{{ path_for('addEmployment', {'personId' : person.id }) }}">Add career/employment</a>
+	  </div>
+	  {% if personDetails.employments is empty %}
+			<span><em>None known</em></span>
+       {% else %}
+		   
+		    <table class="table table-striped table-sm .table-responsive">
+		    	<thead>
+		    		<tr>
+		    			<th>id</th>
+		    			<th>From</th>
+		    			<th>To</th>
+		    			<th>Job Title</th>
+		    			<th>Employer</th>
+		    			<th>Location</th>
+		    			<th>Amend</th>
+		    			<th>Drop</th>
+		    		</tr>
+		    	</thead>
+		    	<tbody>
+    			
+	    			{% for employment in personDetails.employments %}
+	    				<tr>
+	    					<td>{{employment.category.id}}</td>
+							<td>{{employment.category.start_year}}</td>
+							<td>{{employment.category.end_year}}</td>
+							<td>{{employment.category.job_title}}</td>
+							<td>{{employment.category.employer}}</td>
+							<td>{{employment.category.location}}</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="updateEmployment" role="button" href="{{ path_for('updateEmployment', {'personId' : person.id, 'employmentId' : employment.category.id}) }}"><i class="fa fa-refresh" data-toggle="tooltip" data-placement="top" title="Amend"></i></a>
+							</td>
+							<td>
+								<a class="btn btn-primary btn-sm" id="deleteEmployment" role="button" href="{{ path_for('deleteEmployment', {'personId' : person.id, 'employmentId' : employment.category.id }) }}"> <i class="fa fa-times" data-toggle="tooltip" data-placement="top" title="Drop" aria-hidden="true"></i></a>
+							</td>
+							<td>
+								{% if person.id == myPersonId %}
+									<label class="custom-control custom-checkbox">
+										{% set check = (employment.private) ? "checked" : "" %}
+											<input id="privateEmployment" name="privateEmployment" type="checkbox" class="custom-control-input" {{check}} onclick="window.location = '{{ path_for("updatePrivateEmployment", {"personId": person.id, "employmentLinkId": employment.employmentLinkId}) }}'">
+			  							<span class="custom-control-indicator"></span>
+			  							<span class="custom-control-description">private</span>
+									</label>
+								{% endif %}
+							</td>
+						</tr>
+	    			{% endfor %}
+	    		
+	    		</tbody>
+	    	</table>
+	    {% endif %}
+	  </div>
+	</div>
+</div>

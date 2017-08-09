@@ -1,0 +1,36 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+  <div class="row content">
+    <div class="col-sm-2 sidenav lower">
+
+    </div>
+    <div class="col-sm-8 text-left"> 
+		<h4 class="bg-success display-7 pt-2 pb-2 pl-2 text-white">Put up a notice for all members to see</h4>
+		<p>Enter your (brief) message below. The notice will appear in the right-hnd column to be read by other members.</p>
+		
+		<hr>
+
+		<form action="{{ path_for('postNotice') }}" method="post" autocomplete="off">
+
+			<fieldset class="form-group">
+	            <label for="heading">Heading</label>
+	            <input type="text" name="heading" rows="10" cols="30" class="form-control" id="heading"></textarea>
+	        </fieldset>
+	    
+	        <fieldset class="form-group">
+	            <label for="notice">Notice</label>
+	            <textarea name="notice" rows="10" cols="30" class="form-control" id="notice"></textarea>
+	        </fieldset>
+	        
+	        <button type="submit" class="btn btn-primary btn-md">Post notice</button>
+	        {{ csrf.field | raw }}
+	    </form>
+
+  	</div>
+  </div>
+</div>
+
+{% endblock %}

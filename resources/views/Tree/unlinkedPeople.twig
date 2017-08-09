@@ -1,0 +1,17 @@
+{%  extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="container-fluid text-center">    
+
+<h2>Display of unlinked people</h2>
+
+<p>A list of those people who are not currently linked into the family tree.</p>
+
+{% for person in unlinked %}
+	{{ person }}
+{% endfor %}
+
+</div>
+
+{% endblock %}

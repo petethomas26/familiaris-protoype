@@ -1,0 +1,50 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+<div class="row content">
+	<div class="col-md-9 col-md-offset-3 pb-2 bg-primary">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+   				Remembered People (click on a name to view the details of that person)
+   				<a type="button" class="close" href="{{ path_for('person', {'personId':personId}) }}" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </a>
+		        
+  			</div>
+		<!--List of all Members; to select one from-->
+			
+			{% if people is not empty %}
+				<table class="table table-hover">
+				  	<thead>
+					    <tr>
+					      <th>id</th>
+					      <th>First Name</th>
+					      <th>Nickname</th>
+					      <th>Last Name</th>
+					      <th>Date of Birth</th>
+					      <th></th>
+					    </tr>
+				  	</thead>
+				  	<tbody>
+						{% for person in people %}
+						    <tr onclick="window.location = '{{ path_for("person",  {"personId": person.id}) }}'">
+						    	<td>{{ person.id }}</td>
+						    	<td>{{ person.first_name }}</td>
+						    	<td>{{ person.nickname }}</td>
+						    	<td>{{ person.last_name }}</td>
+						    	<td>{{ person.date_of_birth }}</td>
+						    </tr>
+			  			{% endfor %}
+				   	</tbody>
+				</table>
+				<hr>
+			{% else %}
+				<p>No favourites have been recorded.</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

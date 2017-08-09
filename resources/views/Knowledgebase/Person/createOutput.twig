@@ -1,0 +1,60 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3 pb-2 bg-primary">
+			<div class="card">
+				<div class="card-header bg-primary text-white">
+	   				Create new output
+	   				<a type="button" class="close" href="{{ path_for('person', {'personId': personId}) }}" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </a>
+	  			</div>
+  				<div class="card-block">
+					<form method="post" action="{{ path_for('postAddOutput', {'personId': personId}) }}" autocomplete="off">
+
+						<div class="form-group {{ blah.year ? ' has-warning' : '' }}">
+				            <label for="outputYear" class="form-control-label">Year:</label>
+				            <input type="text" class="form-control{{ blah.year ? ' form-control-warning' : ''}} form-control-sm" id="outputYear" name="year" value="{{ old.year }}">
+				            <div class="form-control-feedback">{{ blah.year ? blah.year | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.output ? ' has-warning' : '' }}">
+				            <label for="outputOutput" class="form-control-label">Output:</label>
+				            <input type="text" class="form-control{{ blah.output ? ' form-control-warning' : ''}} form-control-sm" id="outputOutput" name="output" value="{{ old.output }}">
+				            <div class="form-control-feedback">{{ blah.output ? blah.output | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.collaborator ? ' has-warning' : '' }}">
+				            <label for="outputCollaborator" class="form-control-label">Collaborator:</label>
+		            		<input type="text" class="form-control{{ blah.collaborator ? ' form-control-warning' : ''}} form-control-sm" id="outputCollaborator" name="collaborator" value="{{ old.collaborator }}">
+		            		<div class="form-control-feedback">{{ blah.collaborator ? blah.collaborator | first : ''}}</div>
+			            </div>
+
+			            <div class="form-group {{ blah.description ? ' has-warning' : '' }}">
+				            <label for="outputDescription" class="form-control-label">Description:</label>
+		            		<input type="text" class="form-control{{ blah.description ? ' form-control-warning' : ''}} form-control-sm" id="outputDescription" name="description" value="{{ old.description }}">
+		            		<div class="form-control-feedback">{{ blah.description ? blah.description | first : ''}}</div>
+			            </div>
+
+			    		<div class="form-group inline">
+							<button  type="submit" class="btn btn-primary" id="outputSubmit">Submit</button>
+							<a type="button" class="btn btn-primary" id="outputClose" href="{{ path_for('person', {'personId': personId}) }}">Cancel</a>
+							<div class="float-right">
+					            <label class="btn" for="private" class="form-control-label">Keep this output private?
+					            	<input type="checkbox"  id="private" autocomplete="off"  title="private" name="private" checked>
+					            </label>
+					            <a tabindex="0" class="btn btn-success btn-sm" role="button" data-toggle="popover" data-trigger="focus" title="Keeping data private" data-placement="top" data-content="By default, all personal details are kept private to you. To let others see this data, uncheck this box.">?</a>
+				            </div>
+					  	</div>
+			            {{ csrf.field | raw }}
+			        </form>
+
+			    </div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+	   
